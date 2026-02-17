@@ -1,0 +1,1 @@
+This is the "Offline Engine." It saves the app to the student's phone memory so they can take the exam even without data.

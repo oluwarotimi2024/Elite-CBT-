@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOT JAMB Master | Powered by Oluwarotimi SOT</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root { --sot-blue: #002D62; --sot-gold: #FFD700; --sot-green: #1B5E20; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #f4f7f6; min-height: 100vh; padding-bottom: 70px; }
+        .app-header { background: var(--sot-blue); color: white; padding: 15px; text-align: center; border-bottom: 5px solid var(--sot-gold); }
+        .profile-circle { width: 70px; height: 70px; border-radius: 50%; border: 3px solid var(--sot-gold); margin: 0 auto 5px; overflow: hidden; background: #fff; }
+        .profile-circle img { width: 100%; height: 100%; object-fit: cover; }
+        .page { display: none; padding: 20px; animation: fadeIn 0.3s; }
+        .active-page { display: block; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 100%; max-width: 650px; margin: auto; }
+        .btn { width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .btn-blue { background: var(--sot-blue); color: white; }
+        .btn-red { background: #d32f2f; color: white; padding: 5px 10px; width: auto; font-size: 0.7rem; }
+        .btn-nav { width: 32%; background: #eee; }
+        .option { display: block; padding: 15px; margin: 10px 0; border: 2px solid #eee; border-radius: 10px; cursor: pointer; }
+        .option.selected { border-color: var(--sot-blue); background: #eef3ff; font-weight: bold; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.8rem; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: var(--sot-blue); color: white; }
+        .sot-footer { background: var(--sot-blue); color: white; text-align: center; padding: 15px; position: fixed; bottom: 0; width: 100%; font-size: 0.8rem; }
+        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+    </style>
+</head>
+<body>
+
+<header class="app-header">
+    <div class="profile-circle"><img src="profile.jpg" alt="SOT"></div>
+    <h1>SOT JAMB MASTER</h1>
+</header>
+
+<div id="page-login" class="page active-page">
+    <div class="card" style="text-align:center;">
+        <input type="text" id="std-name" placeholder="Full Name (Surname First)">
+        <button class="btn btn-blue" onclick="navDept('science')">SCIENCE CLASS</button>
+        <button class="btn btn-blue" onclick="navDept('art')">ART CLASS</button>
+        <button class="btn btn-blue" onclick="navDept('commercial')">COMMERCIAL CLASS</button>
+        <p onclick="showAdmin()" style="margin-top:20px; font-size:0.7rem; color:gray; cursor:pointer;">ADMIN PORTAL</p>
+    </div>
+</div>
+
+<div id="page-subs" class="page">
+    <div class="card" style="text-align:center;">
+        <h2 id="dept-title" style="color: var(--sot-blue); margin-bottom:15px;"></h2>
+        <div id="sub-list"></div>
+        <button class="btn" style="background:#666; color:white;" onclick="goHome()">BACK</button>
+    </div>
+</div>
+
+<div id="page-exam" class="page">
+    <div class="card" style="padding:0; overflow:hidden;">
+        <div style="background:var(--sot-blue); color:white; padding:15px; display:flex; justify-content:space-between;">
+            <span id="label-sub"></span>
+            <span id="timer" style="color:var(--sot-gold);">30:00</span>
+        </div>
+        <div style="padding:20px;">
+            <h3 id="q-text" style="margin-bottom:20px; min-height:50px;"></h3>
+            <div id="opt-container"></div>
+            <div style="display:flex; justify-content: space-between; margin-top:20px;">
+                <button class="btn btn-nav" onclick="prevQ()">PREV</button>
+                <button class="btn btn-nav" style="background:red; color:white;" onclick="confirmSubmit()">SUBMIT</button>
+                <button class="btn btn-nav" style="background:var(--sot-blue); color:white;" onclick="nextQ()">NEXT</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="page-result" class="page">
+    <div class="card" style="text-align:center;">
+        <h2>EXAM RESULT</h2>
+        <h1 id="score-raw" style="font-size:3.5rem;"></h1>
+        <p id="score-percent" style="color:var(--sot-green); font-weight:bold; font-size:1.2rem; margin-bottom:20px;"></p>
+        <button class="btn btn-blue" style="background:var(--sot-green);" onclick="downloadResult()">PRINT RESULT & CORRECTIONS</button>
+        <button class="btn btn-blue" onclick="location.reload()">FINISH</button>
+    </div>
+</div>
+
+<div id="page-admin" class="page">
+    <div class="card">
+        <h2>Admin Management</h2>
+        <div style="background:#eee; padding:15px; border-radius:10px; margin-bottom:20px;">
+            <h3>Add Question</h3>
+            <select id="adm-dept"><option value="science">Science</option><option value="art">Art</option><option value="commercial">Commercial</option></select>
+            <input type="text" id="adm-sub" placeholder="Subject Name">
+            <textarea id="adm-q" placeholder="The Question"></textarea>
+            <input type="text" id="adm-o1" placeholder="Correct Answer">
+            <input type="text" id="adm-o2" placeholder="Wrong Option 1">
+            <input type="text" id="adm-o3" placeholder="Wrong Option 2">
+            <input type="text" id="adm-o4" placeholder="Wrong Option 3">
+            <button class="btn btn-blue" style="background:var(--sot-green);" onclick="addQuestion()">SAVE QUESTION</button>
+        </div>
+
+        <h3>Manage Questions</h3>
+        <div style="max-height: 250px; overflow-y: auto;">
+            <table id="q-manage-table"><thead><tr><th>Sub</th><th>Question</th><th>Action</th></tr></thead><tbody></tbody></table>
+        </div>
+
+        <h3 style="margin-top:20px;">Student Records</h3>
+        <div style="max-height: 150px; overflow-y: auto;">
+            <table id="score-table"><thead><tr><th>Name</th><th>Score</th><th>Action</th></tr></thead><tbody></tbody></table>
+        </div>
+        
+        <button class="btn" style="background:#666; color:white; margin-top:20px;" onclick="goHome()">LOGOUT ADMIN</button>
+    </div>
+</div>
+
+<footer class="sot-footer">Powered by <strong>Oluwarotimi SOT</strong></footer>
+
+<div id="sot-slip" style="display:none; padding:30px; border:10px solid #002D62; background:white;">
+    <center><h1>SOT JAMB MASTER</h1><hr>
+    <h2 id="slip-name"></h2><h3 id="slip-sub"></h3><h1 id="slip-score"></h1></center>
+    <div id="slip-corrections" style="margin-top:20px;"></div>
+</div>
+
+<script>
+// --- AUTOMATIC 20 QUESTION STARTER LOGIC ---
+const starter = {
+    science: [
+        {s:"Biology", q:"Structural unit of life?", o:["Cell","Tissue","Organ","System"], a:"Cell"},
+        {s:"Biology", q:"Powerhouse of cell?", o:["Mitochondria","Nucleus","DNA","Ribosome"], a:"Mitochondria"},
+        {s:"Mathematics", q:"Root of 144?", o:["12","14","10","16"], a:"12"},
+        {s:"Mathematics", q:"2 + 2 * 2?", o:["6","8","4","10"], a:"6"}
+        // ... (system logic handles any amount you add)
+    ],
+    art: [
+        {s:"Government", q:"First capital of Nigeria?", o:["Calabar","Lagos","Abuja","Lokoja"], a:"Calabar"},
+        {s:"English", q:"Synonym of Happy?", o:["Joyful","Sad","Angry","Tired"], a:"Joyful"}
+    ],
+    commercial: [
+        {s:"Economics", q:"Father of Economics?", o:["Adam Smith","Alfred Marshall","Karl Marx","John Locke"], a:"Adam Smith"}
+    ]
+};
+
+let qBank = JSON.parse(localStorage.getItem('sot_bank')) || starter;
+let studentLogs = JSON.parse(localStorage.getItem('sot_logs')) || [];
+let student = '', currentDept = '', examQuestions = [], answers = [], qIdx = 0, timer, timeLeft = 1800;
+
+function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+    document.getElementById(id).classList.add('active-page');
+    if(id === 'page-admin') updateAdminViews();
+}
+
+function navDept(d) {
+    student = document.getElementById('std-name').value;
+    if(!student) return alert("Enter Name!");
+    currentDept = d; showPage('page-subs');
+    document.getElementById('dept-title').innerText = d.toUpperCase();
+    const subs = { 
+        science: ["English", "Mathematics", "Physics", "Chemistry", "Biology"], 
+        art: ["English", "Government", "Literature", "CRS", "History"], 
+        commercial: ["English", "Economics", "Commerce", "Accounts", "Mathematics"] 
+    };
+    document.getElementById('sub-list').innerHTML = subs[d].map(s => `<button class="btn btn-blue" onclick="startExam('${s}')">${s}</button>`).join('');
+}
+
+function startExam(sub) {
+    let rawSet = qBank[currentDept].filter(q => q.s.toLowerCase() === sub.toLowerCase());
+    if(rawSet.length < 1) return alert("Admin: Please add questions for " + sub);
+    
+    examQuestions = rawSet.sort(() => Math.random() - 0.5).slice(0, 30);
+    answers = Array(examQuestions.length).fill(null);
+    qIdx = 0; showPage('page-exam'); renderQ();
+    clearInterval(timer); timer = setInterval(tick, 1000);
+}
+
+function renderQ() {
+    const q = examQuestions[qIdx];
+    document.getElementById('label-sub').innerText = `${q.s} | ${qIdx + 1} of ${examQuestions.length}`;
+    document.getElementById('q-text').innerText = q.q;
+    document.getElementById('opt-container').innerHTML = q.o.map(opt => `<div class="option ${answers[qIdx] === opt ? 'selected' : ''}" onclick="answers[${qIdx}]='${opt}'; renderQ();">${opt}</div>`).join('');
+}
+
+function nextQ() { if(qIdx < examQuestions.length - 1) { qIdx++; renderQ(); } }
+function prevQ() { if(qIdx > 0) { qIdx--; renderQ(); } }
+function tick() { timeLeft--; let m = Math.floor(timeLeft/60), s = timeLeft%60; document.getElementById('timer').innerText = `${m}:${s<10?'0'+s:s}`; if(timeLeft <= 0) submitFinal(); }
+function confirmSubmit() { if(confirm("Submit Exam?")) submitFinal(); }
+
+function submitFinal() {
+    clearInterval(timer);
+    let score = 0;
+    examQuestions.forEach((q, i) => { if(answers[i] === q.a) score++; });
+    studentLogs.push({ id: Date.now(), name: student, sub: examQuestions[0].s, score: score+"/"+examQuestions.length });
+    localStorage.setItem('sot_logs', JSON.stringify(studentLogs));
+    showPage('page-result');
+    document.getElementById('score-raw').innerText = `${score} / ${examQuestions.length}`;
+    document.getElementById('score-percent').innerText = Math.round((score/examQuestions.length)*100) + "% Percent";
+}
+
+function addQuestion() {
+    const d = document.getElementById('adm-dept').value, s = document.getElementById('adm-sub').value, q = document.getElementById('adm-q').value, a = document.getElementById('adm-o1').value;
+    const o = [a, document.getElementById('adm-o2').value, document.getElementById('adm-o3').value, document.getElementById('adm-o4').value].sort(() => Math.random() - 0.5);
+    if(!s || !q || !a) return alert("Fill all fields");
+    qBank[d].push({ id: Date.now(), s, q, o, a });
+    localStorage.setItem('sot_bank', JSON.stringify(qBank));
+    updateAdminViews(); alert("Saved!");
+}
+
+function deleteQ(dept, id) {
+    qBank[dept] = qBank[dept].filter(q => q.id !== id);
+    localStorage.setItem('sot_bank', JSON.stringify(qBank));
+    updateAdminViews();
+}
+
+function deleteLog(id) {
+    studentLogs = studentLogs.filter(l => l.id !== id);
+    localStorage.setItem('sot_logs', JSON.stringify(studentLogs));
+    updateAdminViews();
+}
+
+function updateAdminViews() {
+    document.querySelector('#score-table tbody').innerHTML = studentLogs.map(l => `<tr><td>${l.name}</td><td>${l.score}</td><td><button class="btn-red" onclick="deleteLog(${l.id})">Del</button></td></tr>`).join('');
+    let qRows = "";
+    ["science","art","commercial"].forEach(d => {
+        qBank[d].forEach(q => { qRows += `<tr><td>${q.s}</td><td>${q.q.substring(0,20)}...</td><td><button class="btn-red" onclick="deleteQ('${d}', ${q.id})">Del</button></td></tr>`; });
+    });
+    document.querySelector('#q-manage-table tbody').innerHTML = qRows;
+}
+
+function downloadResult() {
+    document.getElementById('slip-name').innerText = "CANDIDATE: " + student.toUpperCase();
+    document.getElementById('slip-sub').innerText = "SUBJECT: " + examQuestions[0].s;
+    document.getElementById('slip-score').innerText = "SCORE: " + document.getElementById('score-raw').innerText;
+    document.getElementById('slip-corrections').innerHTML = examQuestions.map((q, i) => `<div style="border-bottom:1px solid #ddd; padding:5px; font-size:10px;"><b>Q${i+1}: ${q.q}</b><br>Correct: <span style="color:green">${q.a}</span></div>`).join('');
+    const el = document.getElementById('sot-slip'); el.style.display = 'block';
+    html2pdf().from(el).set({margin:0.5, filename: student+'_SOT.pdf'}).save().then(()=>el.style.display='none');
+}
+
+function showAdmin() { if(prompt("PIN:") === '2026') showPage('page-admin'); }
+function goHome() { showPage('page-login'); }
+</script>
+</body>
+</html>
