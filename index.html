@@ -47,163 +47,182 @@
 
 <div class="overlay">
     <header class="app-header">
-        <div class="profile-circle"><img src="https://cdn-icons-png.flaticon.com/512/3426/3426653.png" alt="SOT"></div>
-        <h2 style="color: white;">ELITE MASTER V3.2</h2>
-        <p style="color: var(--sot-gold); font-size: 0.8rem;">BIOLOGY SPECIALIST EDITION</p>
+        <div class="profile-circle">
+            <img src="https://cdn-icons-png.flaticon.com/512/3426/3426653.png" alt="SOT LOGO">
+        </div>
+        <h2 style="color: white; letter-spacing: 3px;">ELITE MASTER V3.1</h2>
+        <p style="color: var(--sot-gold); font-size: 0.75rem;">POWERED BY OLUWAROTIMI SUNDAY TEMITOPE</p>
     </header>
 
     <div class="container">
         <div id="page-home" class="page active-page">
             <div class="card">
-                <h2 style="text-align: center; color: var(--sot-blue);">STUDENT LOGIN</h2>
-                <input type="text" id="std-name" placeholder="Full Name" style="width:100%; padding:20px; margin:10px 0; border-radius:10px; border:1px solid #ccc;">
-                <input type="number" id="std-phone" placeholder="Phone Number" style="width:100%; padding:20px; margin:10px 0; border-radius:10px; border:1px solid #ccc;">
-                <button class="btn btn-blue" onclick="startPortal()">START BIOLOGY CBT</button>
-                <div style="margin-top:20px; background:#fff8e1; padding:20px; border-radius:15px; border-left:5px solid var(--sot-gold);">
-                    <b>Notice:</b> Ensure your phone is fully charged before starting the 100-question drill.
+                <h2 style="text-align: center; margin-bottom: 25px; color: #001f3f;">STUDENT PORTAL</h2>
+                <input type="text" id="std-name" placeholder="Full Name (e.g. John Doe)">
+                <input type="number" id="std-phone" placeholder="Phone Number">
+                
+                <button class="btn btn-blue" onclick="startPortal()">ENTER CBT HALL</button>
+                <button class="btn btn-gold" onclick="switchTab('page-games')">CURRENT AFFAIRS TRIVIA</button>
+                
+                <div style="margin-top: 30px; padding: 25px; background: linear-gradient(to right, #eef2f3, #8e9eab); border-radius: 15px; text-align: center;">
+                    <h4 style="color: #001f3f;">Center Announcements</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">"Success is no accident. It is hard work, perseverance, and learning." Practice daily for JAMB/WAEC excellence.</p>
                 </div>
             </div>
         </div>
 
         <div id="page-exam" class="page">
             <div class="card">
-                <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                    <b id="q-count" style="color:var(--sot-accent)">Question 1/100</b>
-                    <b id="timer" style="color:red">40:00</b>
+                <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">
+                    <b id="exam-subject" style="color: var(--sot-accent);">SUBJECT</b>
+                    <b id="timer" style="color: red;">20:00</b>
                 </div>
-                <h3 id="q-text" style="margin-bottom:25px; line-height:1.5;"></h3>
-                <div id="options-box" style="display:flex; flex-direction:column;"></div>
+                <p id="q-text" style="font-size: 1.2rem; font-weight: bold; margin-bottom: 20px;"></p>
+                <div id="options-box"></div>
+            </div>
+        </div>
+
+        <div id="page-result" class="page">
+            <div class="card" style="text-align: center;">
+                <h2 style="color: green;">EXAM COMPLETED!</h2>
+                <h1 id="res-score" style="font-size: 4rem; margin: 20px 0;">0/0</h1>
+                <button class="btn btn-blue" onclick="generatePDF()">DOWNLOAD OFFICIAL SLIP</button>
+                <button class="btn btn-gold" onclick="location.reload()">RETAKE EXAM</button>
             </div>
         </div>
 
         <div id="page-games" class="page">
             <div class="card">
-                <h2 style="text-align:center;">Current Affairs Trivia</h2>
-                <p id="t-text" style="margin:20px 0; font-size:1.2rem; text-align:center;">Click start to begin the Elite Challenge!</p>
-                <div id="t-box"></div>
-                <button id="t-start" class="btn btn-blue" onclick="nextTrivia()">START GAME</button>
+                <h2 style="text-align: center;">Trivia Game</h2>
+                <p id="t-question" style="margin: 20px 0; font-size: 1.1rem; text-align: center;">Ready to test your knowledge?</p>
+                <div id="t-options"></div>
+                <button id="t-start" class="btn btn-blue" onclick="startTrivia()">START NOW</button>
             </div>
         </div>
 
         <div id="page-admin" class="page">
             <div class="card">
-                <h2>Admin Dashboard</h2>
-                <p>Candidate Logs & Contact Info</p>
-                <div style="overflow-x:auto;">
-                    <table>
-                        <thead><tr><th>Name</th><th>Phone</th><th>Date</th></tr></thead>
-                        <tbody id="admin-table-body"></tbody>
-                    </table>
-                </div>
-                <button class="btn" style="background:#444; color:white; margin-top:30px;" onclick="localStorage.clear(); location.reload();">CLEAR SYSTEM</button>
+                <h2>Admin Control</h2>
+                <div id="admin-log-list" style="margin-top: 20px; font-size: 0.9rem;"></div>
+                <button class="btn" style="background:red; color:white; margin-top:20px;" onclick="localStorage.clear(); location.reload();">RESET DATABASE</button>
             </div>
         </div>
     </div>
 
+    <div id="sot-slip">
+        <center>
+            <h1 style="color: #001f3f; font-size: 2.5rem;">SOT ELITE TUTORIALS</h1>
+            <p>Official Performance Transcript</p>
+            <hr style="margin: 20px 0; border: 1px solid #000;">
+            <h2 id="slip-name"></h2>
+            <h3 id="slip-phone"></h3>
+            <h1 id="slip-score" style="font-size: 4rem; margin: 20px 0; color: #001f3f;"></h1>
+            <p>Date: <span id="slip-date"></span></p>
+        </center>
+    </div>
+
     <nav class="bottom-nav">
-        <div class="nav-item" onclick="location.reload()">HOME</div>
-        <div class="nav-item" onclick="switchTab('page-games')">TRIVIA</div>
+        <div class="nav-item" onclick="goHome()">HOME</div>
+        <div class="nav-item" onclick="switchTab('page-games')">GAMES</div>
         <div class="nav-item" onclick="checkAdmin()">ADMIN</div>
     </nav>
 </div>
 
-<div id="sot-slip">
-    <center>
-        <h1 style="color: #002D62;">ELITE TUTORIAL CENTRE</h1>
-        <p>Result Slip for CBT Practice</p>
-        <hr style="margin:20px 0;">
-        <h2 id="slip-name"></h2>
-        <h3 id="slip-phone"></h3>
-        <h1 id="slip-score" style="font-size: 4rem; color: #D32F2F;"></h1>
-        <p>Status: <span id="slip-status">COMPLETED</span></p>
-    </center>
-</div>
-
 <script>
-    const bioBank = [
-        {q: "The powerhouse of the cell is the?", o: ["Nucleus", "Mitochondria", "Ribosome", "Vacuole"], a: "Mitochondria"},
-        {q: "Which of these is a function of the liver?", o: ["Bile production", "Urine formation", "Oxygen transport", "Nerve impulse"], a: "Bile production"},
-        {q: "The process of maintaining a constant internal environment is?", o: ["Osmosis", "Homeostasis", "Diffusion", "Respiration"], a: "Homeostasis"},
-        {q: "Which Vitamin is responsible for blood clotting?", o: ["Vit A", "Vit C", "Vit K", "Vit D"], a: "Vit K"},
-        {q: "The structural unit of the kidney is?", o: ["Neuron", "Nephron", "Alveoli", "Villi"], a: "Nephron"}
-        // ... System is ready for the remaining 95 questions
+    let qBank = [
+        {q: "What is the capital of Nigeria?", a: "Abuja", o: ["Lagos", "Abuja", "Kano", "Enugu"]},
+        {q: "Who is the Nigerian President?", a: "Tinubu", o: ["Buhari", "Tinubu", "Atiku", "Obi"]},
+        {q: "Solve 5 + 5 * 2", a: "15", o: ["20", "15", "10", "25"]}
     ];
-
-    const triviaBank = [
-        {q: "Who was the first female pilot in Nigeria?", a: "Chinyere Kalu", o: ["Chinyere Kalu", "Stella Oduah", "Funmilayo Ransome"]},
-        {q: "What does the 'S' in SOT stand for?", a: "Sunday", o: ["Sunday", "Samuel", "Solomon"]}
-    ];
-
-    let currentQ = 0; let score = 0; let tIdx = 0;
+    
+    let userAnswers = [];
+    let currentIdx = 0;
+    let score = 0;
 
     function switchTab(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
         document.getElementById(id).classList.add('active-page');
     }
 
+    function goHome() { switchTab('page-home'); }
+
     function startPortal() {
         const name = document.getElementById('std-name').value;
         const phone = document.getElementById('std-phone').value;
-        if(!name || !phone) return alert("Please fill details!");
+        if(!name || !phone) return alert("Enter Details!");
         
         let logs = JSON.parse(localStorage.getItem('sot_logs') || "[]");
         logs.push({name, phone, date: new Date().toLocaleDateString()});
         localStorage.setItem('sot_logs', JSON.stringify(logs));
         
         switchTab('page-exam');
-        renderQuestion();
+        loadQuestion();
     }
 
-    function renderQuestion() {
-        const q = bioBank[currentQ];
-        document.getElementById('q-count').innerText = `Question ${currentQ+1} / ${bioBank.length}`;
-        document.getElementById('q-text').innerText = q.q;
+    function loadQuestion() {
+        const q = qBank[currentIdx];
+        document.getElementById('exam-subject').innerText = "GENERAL KNOWLEDGE";
+        document.getElementById('q-text').innerText = (currentIdx + 1) + ". " + q.q;
         document.getElementById('options-box').innerHTML = q.o.map(opt => 
-            `<button class="btn option-btn" onclick="handleAns('${opt}')">${opt}</button>`
+            `<button class="btn option-btn" onclick="nextQuestion('${opt}')">${opt}</button>`
         ).join('');
     }
 
-    function handleAns(choice) {
-        if(choice === bioBank[currentQ].a) score++;
-        currentQ++;
-        if(currentQ < bioBank.length) renderQuestion(); else showResult();
+    function nextQuestion(choice) {
+        if(choice === qBank[currentIdx].a) score++;
+        currentIdx++;
+        if(currentIdx < qBank.length) {
+            loadQuestion();
+        } else {
+            finishExam();
+        }
     }
 
-    function showResult() {
+    function finishExam() {
+        switchTab('page-result');
+        document.getElementById('res-score').innerText = score + " / " + qBank.length;
+    }
+
+    function generatePDF() {
         const name = document.getElementById('std-name').value;
-        document.getElementById('slip-name').innerText = "STUDENT: " + name;
+        document.getElementById('slip-name').innerText = "CANDIDATE: " + name.toUpperCase();
         document.getElementById('slip-phone').innerText = "PHONE: " + document.getElementById('std-phone').value;
-        document.getElementById('slip-score').innerText = score + " / " + bioBank.length;
+        document.getElementById('slip-score').innerText = score + " / " + qBank.length;
+        document.getElementById('slip-date').innerText = new Date().toDateString();
+
+        const element = document.getElementById('sot-slip');
+        element.style.display = 'block';
         
-        const el = document.getElementById('sot-slip');
-        el.style.display = 'block';
-        html2pdf().from(el).set({margin:1, filename: name+'_Result.pdf'}).save().then(()=>location.reload());
+        html2pdf().from(element).set({
+            margin: 1,
+            filename: name + '_SOT_Result.pdf',
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        }).save().then(() => {
+            element.style.display = 'none';
+        });
     }
 
-    function nextTrivia() {
+    function startTrivia() {
         document.getElementById('t-start').style.display = 'none';
-        const q = triviaBank[tIdx];
-        document.getElementById('t-text').innerText = q.q;
-        document.getElementById('t-box').innerHTML = q.o.map(opt => 
-            `<button class="btn btn-blue" style="padding:15px;" onclick="checkT('${opt}')">${opt}</button>`
-        ).join('');
-    }
-
-    function checkT(choice) {
-        if(choice === triviaBank[tIdx].a) alert("Correct!"); else alert("Wrong!");
-        tIdx = (tIdx + 1) % triviaBank.length;
-        nextTrivia();
+        // Simple Trivia Logic
+        document.getElementById('t-question').innerText = "Which year did Nigeria get independence?";
+        document.getElementById('t-options').innerHTML = `
+            <button class="btn btn-blue" onclick="alert('Correct!')">1960</button>
+            <button class="btn btn-blue" onclick="alert('Wrong!')">1963</button>
+        `;
     }
 
     function checkAdmin() {
         if(prompt("Admin PIN:") === "2026") {
             switchTab('page-admin');
             const logs = JSON.parse(localStorage.getItem('sot_logs') || "[]");
-            document.getElementById('admin-table-body').innerHTML = logs.map(l => 
-                `<tr><td>${l.name}</td><td>${l.phone}</td><td>${l.date}</td></tr>`
-            ).join('');
+            document.getElementById('admin-log-list').innerHTML = logs.map(l => 
+                `<p><b>${l.name}</b> (${l.phone}) - ${l.date}</p>`
+            ).join('') || "No records.";
         }
     }
 </script>
+
 </body>
 </html>
