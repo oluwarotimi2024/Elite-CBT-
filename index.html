@@ -66,14 +66,14 @@
 
 <div id="splash">
     <div class="splash-icon">SOT</div>
-    <h1 style="margin-top: 20px; letter-spacing: 2px;">WELCOME TO ELITE</h1>
+    <h1 style="margin-top: 20px; letter-spacing: 2px;">WELCOME TO ELITE CBT</h1>
     <p style="color: var(--sot-gold); margin-top: 10px;">Powered by Oluwarotimi Sunday Temitope</p>
 </div>
 
 <div class="overlay">
     <header class="app-header">
         <div class="profile-circle"><img src="https://cdn-icons-png.flaticon.com/512/3426/3426653.png" alt="SOT" width="100%"></div>
-        <h2 style="color: white; letter-spacing: 1px;">ELITE MASTER V4.0</h2>
+        <h2 style="color: white; letter-spacing: 1px;">ELITE MASTER </h2>
     </header>
 
     <div class="container">
@@ -82,8 +82,8 @@
                 <h2 style="text-align: center; color: var(--sot-blue); margin-bottom: 20px;">STUDENT LOGIN</h2>
                 <input type="text" id="std-name" placeholder="Full Name">
                 <input type="number" id="std-phone" placeholder="Phone Number">
-                <button class="btn btn-blue" onclick="startPortal()">START EXAMINATION</button>
-                <button class="btn btn-gold" onclick="openTrivia()">PLAY TRIVIA</button>
+                <button class="btn btn-blue" onclick="startPortal()"> START CBT EXAMINATION</button>
+                <button class="btn btn-gold" onclick="openTrivia()">PLAY QUIZ</button>
                 <p style="text-align: center; font-size: 0.75rem; margin-top: 20px;">Powered by Oluwarotimi Sunday Temitope</p>
             </div>
         </div>
@@ -117,7 +117,7 @@
 
         <div id="page-games" class="page">
             <div class="card">
-                <h2 style="text-align: center;">General Trivia</h2>
+                <h2 style="text-align: center;">General QUIZ</h2>
                 <p id="t-text" style="margin: 20px 0; font-size: 1.1rem; text-align: center;"></p>
                 <div id="t-box"></div>
                 <div style="display: flex; gap: 10px; margin-top: 20px;">
@@ -127,7 +127,41 @@
                 <button class="btn" style="background:#333; color:white;" onclick="goHome()">BACK HOME</button>
             </div>
         </div>
+<div id="page-lib" class="page">
+    <div class="card" style="padding:10px;">
+        <h3 style="margin:15px; color:var(--sot-blue); text-align:center;">Elite Library</h3>
+        <div class="item-row" onclick="openLesson('biology_cell')">
+            <b>Biology: Cell Theory</b> <span class="lock-badge">Premium</span>
+            <p style="font-size:0.75rem;">Basic units of life and their functions.</p>
+        </div>
+        <div class="item-row" onclick="openLesson('math_matrices')">
+            <b>Math: Matrices</b> <span class="lock-badge">Premium</span>
+            <p style="font-size:0.75rem;">Addition, Determinants, and Inverse.</p>
+        </div>
+        <div class="item-row" onclick="openLesson('english_concord')">
+            <b>English: Concord</b> <span class="lock-badge">Premium</span>
+            <p style="font-size:0.75rem;">Subject-Verb Agreement Rules.</p>
+        </div>
+    </div>
+</div>
 
+<div id="page-calc" class="page">
+    <div class="card">
+        <h3>JAMB Calculator</h3>
+        <input type="text" id="calc-display" readonly style="width:100%; text-align:right; font-size:1.5rem; background:#f9f9f9; padding:10px; border:1px solid #ddd; border-radius:8px;">
+        <div class="calc-grid">
+            <button class="c-btn" onclick="calcPush('7')">7</button><button class="c-btn" onclick="calcPush('8')">8</button><button class="c-btn" onclick="calcPush('9')">9</button><button class="c-btn" onclick="calcPush('/')">/</button>
+            <button class="c-btn" onclick="calcPush('4')">4</button><button class="c-btn" onclick="calcPush('5')">5</button><button class="c-btn" onclick="calcPush('6')">6</button><button class="c-btn" onclick="calcPush('*')">x</button>
+            <button class="c-btn" onclick="calcPush('1')">1</button><button class="c-btn" onclick="calcPush('2')">2</button><button class="c-btn" onclick="calcPush('3')">3</button><button class="c-btn" onclick="calcPush('-')">-</button>
+            <button class="c-btn" onclick="calcPush('0')">0</button><button class="c-btn" onclick="calcClear()">C</button><button class="c-btn" onclick="calcSolve()">=</button><button class="c-btn" onclick="calcPush('+')">+</button>
+        </div>
+    </div>
+</div>
+
+<div id="lesson-modal">
+    <button class="btn" style="background:#333; color:white;" onclick="closeLesson()">CLOSE LESSON</button>
+    <div id="lesson-content" style="margin-top:20px; line-height:1.6;"></div>
+</div>
         <div id="page-result" class="page">
             <div class="card" style="text-align: center;">
                 <h2 style="color: green;">EXAM FINISHED</h2>
@@ -135,7 +169,9 @@
                 <button class="btn btn-blue" onclick="generatePDF()">DOWNLOAD SLIP</button>
                 <button class="btn btn-gold" onclick="location.reload()">FINISH</button>
             </div>
+            <button class="btn" style="background:#333; color:white;" onclick="goHome()">BACK HOME</button>
         </div>
+         </div>
 
         <div id="page-admin" class="page">
             <div class="card">
@@ -167,7 +203,7 @@
 
     <nav class="bottom-nav">
         <div class="nav-item" onclick="goHome()">HOME</div>
-        <div class="nav-item" onclick="openTrivia()">TRIVIA</div>
+        <div class="nav-item" onclick="openTrivia()">QUIZ</div>
         <div class="nav-item" onclick="checkAdmin()">ADMIN</div>
     </nav>
 </div>
@@ -321,7 +357,7 @@
     }
 
     function checkAdmin() {
-        if(prompt("PIN:") === "2026") {
+        if(prompt("PIN:") === "2026ELITE") {
             switchTab('page-admin');
             renderAdminLogs();
         }
@@ -335,6 +371,15 @@
     }
     function nextTrivia() { if(tIdx < triviaBank.length-1){ tIdx++; renderTrivia(); } }
     function prevTrivia() { if(tIdx > 0){ tIdx--; renderTrivia(); } }
+    }
+
+    let display = document.getElementById('calc-display');
+    function calcPush(v) { display.value += v; }
+    function calcClear() { display.value = ''; }
+    function calcSolve() { try { display.value = eval(display.value); } catch { display.value = 'Error'; } }
+
+    window.onload = checkLockStatus;
 </script>
 </body>
 </html>
+
