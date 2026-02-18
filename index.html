@@ -7,7 +7,9 @@
     <style>
         :root { --sot-blue: #002D62; --sot-gold: #FFD700; --light-bg: #f4f7f9; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: var(--light-bg); color: #333; }
+        body { background: url('https://images.unsplash.com/photo-1523050853063-8806af9e29ad?auto=format&fit=crop&q=80') no-repeat center center fixed; 
+            background-size: cover;
+            min-height: 100vh; }
 
         /* --- UPGRADED SPLASH SCREEN --- */
         #splash {
@@ -130,6 +132,26 @@
     <div class="container">
         <div class="card">
             <h3>Admin Records</h3>
+            <h2>ADMIN PORTAL</h2>
+        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin: 15px 0;">
+            <h3>Add New Question</h3>
+            <select id="adm-dept"><option value="science">Science</option><option value="art">Art</option><option value="commercial">Commercial</option></select>
+            <input type="text" id="adm-sub" placeholder="Subject">
+            <textarea id="adm-q" placeholder="Question"></textarea>
+            <input type="text" id="adm-o1" placeholder="Correct Answer">
+            <input type="text" id="adm-o2" placeholder="Wrong 1"><input type="text" id="adm-o3" placeholder="Wrong 2"><input type="text" id="adm-o4" placeholder="Wrong 3">
+            <button class="btn-main" onclick="addQuestion()">SAVE TO DATABASE</button>
+        </div>
+        <h3 style="margin-top:20px;">Records</h3>
+        <table id="score-table"><thead><tr><th>Name</th><th>Score</th><th>Action</th></tr></thead><tbody></tbody></table>
+        <button class="btn-main" style="background: #444; margin-top: 20px;" onclick="goHome()">LOGOUT</button>
+    </div>
+</div>
+
+<div id="sot-slip" style="display:none; padding:30px; color: black; background: white; font-family: Arial;">
+    <center><h1>SOT JAMB MASTER</h1><hr><h2 id="slip-name"></h2><h3 id="slip-sub"></h3><h1 id="slip-score"></h1></center>
+    <div id="slip-corrections" style="margin-top:20px;"></div>
+</div>
             <div id="admin-results"></div>
             <button class="btn" style="background:red; color:white;" onclick="localStorage.clear(); location.reload();">Reset System</button>
         </div>
@@ -194,3 +216,4 @@
 
 </body>
 </html>
+
