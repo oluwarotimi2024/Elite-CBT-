@@ -38,25 +38,22 @@
         .page { display: none; animation: fadeIn 0.5s; }
         .active-page { display: block; }
 
-        .card { background: var(--glass); padding: 35px; border-radius: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); color: #333; }
+        .card { background: var(--glass); padding: 35px; border-radius: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); color: #333; margin-bottom: 20px; }
         .btn { width: 100%; padding: 18px; margin: 8px 0; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
         .btn-blue { background: linear-gradient(90deg, #001f3f, #0072ff); color: white; }
         .btn-gold { background: var(--sot-gold); color: #000; }
         
-        input { width: 100%; padding: 15px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ccc; font-size: 1rem; }
+        input, select { width: 100%; padding: 15px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ccc; font-size: 1rem; }
         .option-btn { background: #f0f2f5; text-align: left; padding: 15px; border: 1px solid #ddd; margin-bottom: 8px; border-radius: 10px; cursor: pointer; width: 100%; transition: 0.2s; }
         .option-btn:hover { background: var(--sot-accent); color: white; }
 
-        /* Professional Admin Upgrade */
-        .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .admin-stat-card { background: #fff; padding: 15px; border-radius: 15px; border-left: 5px solid var(--sot-accent); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        /* Admin Styles */
         .log-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
         .log-table th { background: var(--sot-blue); color: white; padding: 12px; text-align: left; }
-        .log-table td { padding: 12px; border-bottom: 1px solid #eee; }
-
-        /* Landing Page Features */
-        .feature-box { display: flex; gap: 15px; margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px; flex-wrap: wrap; }
-        .f-item { flex: 1; min-width: 140px; background: #f8f9fa; padding: 10px; border-radius: 10px; text-align: center; font-size: 0.75rem; font-weight: bold; border: 1px solid #eee; }
+        .log-table td { padding: 12px; border-bottom: 1px solid #ddd; }
+        .action-btn { padding: 5px 10px; border-radius: 5px; cursor: pointer; border: none; font-size: 0.7rem; font-weight: bold; margin-right: 5px; }
+        .btn-edit { background: #e3f2fd; color: #1976d2; }
+        .btn-del { background: #ffebee; color: #c62828; }
 
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 18px 0; border-top: 3px solid var(--sot-accent); z-index: 1000; }
         .nav-item { font-weight: bold; color: #333; cursor: pointer; font-size: 0.9rem; }
@@ -76,31 +73,18 @@
 <div class="overlay">
     <header class="app-header">
         <div class="profile-circle"><img src="https://cdn-icons-png.flaticon.com/512/3426/3426653.png" alt="SOT" width="100%"></div>
-        <h2 style="color: white; letter-spacing: 1px;">ELITE MASTER V3.9</h2>
+        <h2 style="color: white; letter-spacing: 1px;">ELITE MASTER V4.0</h2>
     </header>
 
     <div class="container">
         <div id="page-home" class="page active-page">
             <div class="card">
-                <h2 style="text-align: center; color: var(--sot-blue); margin-bottom: 10px;">STUDENT TERMINAL</h2>
-                <p style="text-align: center; font-size: 0.85rem; color: #555; margin-bottom: 20px;">Secure Assessment & Intellectual Drill Portal</p>
-                
-                <input type="text" id="std-name" placeholder="Enter Full Name">
-                <input type="number" id="std-phone" placeholder="Enter Registration Phone">
-                
-                <button class="btn btn-blue" onclick="startPortal()">AUTHENTICATE & START</button>
-                <button class="btn btn-gold" onclick="openTrivia()">ACCESS TRIVIA HUB</button>
-
-                <div class="feature-box">
-                    <div class="f-item">🛡️ ANTI-CHEAT<br>CONTROL</div>
-                    <div class="f-item">📊 REAL-TIME<br>ANALYTICS</div>
-                    <div class="f-item">📄 PDF RESULT<br>GENERATOR</div>
-                    <div class="f-item">⏱️ DYNAMIC<br>TIMING</div>
-                </div>
-
-                <p style="text-align: center; font-size: 0.75rem; margin-top: 25px; font-weight: bold; color: var(--sot-blue);">
-                    System Lead: Oluwarotimi Sunday Temitope
-                </p>
+                <h2 style="text-align: center; color: var(--sot-blue); margin-bottom: 20px;">STUDENT LOGIN</h2>
+                <input type="text" id="std-name" placeholder="Full Name">
+                <input type="number" id="std-phone" placeholder="Phone Number">
+                <button class="btn btn-blue" onclick="startPortal()">START EXAMINATION</button>
+                <button class="btn btn-gold" onclick="openTrivia()">PLAY TRIVIA</button>
+                <p style="text-align: center; font-size: 0.75rem; margin-top: 20px;">Powered by Oluwarotimi Sunday Temitope</p>
             </div>
         </div>
 
@@ -117,7 +101,6 @@
             <div class="card">
                 <h2 id="dept-title" style="text-align: center; margin-bottom: 20px; color: var(--sot-accent);"></h2>
                 <div id="subject-list"></div>
-                <button class="btn btn-gold" style="margin-top:10px" onclick="switchTab('page-dept')">BACK</button>
             </div>
         </div>
 
@@ -156,30 +139,28 @@
 
         <div id="page-admin" class="page">
             <div class="card">
-                <h2 style="margin-bottom: 15px; color: var(--sot-blue);">Master Control Dashboard</h2>
-                
-                <div class="admin-grid">
-                    <div class="admin-stat-card">
-                        <small>Total Exams</small>
-                        <h2 id="total-exams-count">0</h2>
-                    </div>
-                    <div class="admin-stat-card">
-                        <small>System Status</small>
-                        <h2 style="color: green; font-size: 1.2rem;">ONLINE</h2>
-                    </div>
-                </div>
+                <h3>+ Add New Question</h3>
+                <select id="adm-dept">
+                    <option value="Science">Science</option>
+                    <option value="Art">Art</option>
+                    <option value="Commercial">Commercial</option>
+                </select>
+                <input type="text" id="adm-sub" placeholder="Subject Name (e.g., Biology)">
+                <input type="text" id="adm-q" placeholder="The Question Text">
+                <input type="text" id="adm-a" placeholder="Correct Answer">
+                <input type="text" id="adm-o" placeholder="Options (separate with commas)">
+                <button class="btn btn-blue" onclick="saveNewQuestion()">SAVE QUESTION</button>
+            </div>
 
-                <div style="overflow-x: auto; background: white; border-radius: 15px;">
+            <div class="card">
+                <h3 style="margin-bottom: 15px;">Student Information & Results</h3>
+                <div style="overflow-x: auto;">
                     <table class="log-table">
-                        <thead><tr><th>Student Name</th><th>Subject</th><th>Score</th><th>Stamp</th></tr></thead>
+                        <thead><tr><th>Student</th><th>Subject</th><th>Score</th><th>Actions</th></tr></thead>
                         <tbody id="admin-table-body"></tbody>
                     </table>
                 </div>
-                
-                <div style="display: flex; gap: 10px;">
-                    <button class="btn btn-blue" style="margin-top: 20px; flex: 2;" onclick="exportLogs()">EXPORT CSV</button>
-                    <button class="btn btn-gold" style="margin-top: 20px; flex: 1; background: #ff4444; color: white;" onclick="clearSystem()">RESET</button>
-                </div>
+                <button class="btn btn-gold" style="margin-top: 20px; background: #333; color: #fff;" onclick="localStorage.removeItem('sot_final_logs'); renderAdminLogs();">WIPE ALL RESULTS</button>
             </div>
         </div>
     </div>
@@ -210,29 +191,30 @@
     // Splash
     setTimeout(() => { document.getElementById('splash').style.opacity = '0'; setTimeout(()=>document.getElementById('splash').style.display='none', 800); }, 3000);
 
-    const qBank = {
+    // Initial Questions
+    let qBank = JSON.parse(localStorage.getItem('sot_qbank')) || {
         'Science': {
-            'Biology': [{q:"Study of life?", a:"Biology", o:["Biology","Physics","Art","Law"]}, {q:"Unit of life?", a:"Cell", o:["Cell","Tissue","Organ","Atom"]}, {q:"Study of plants?", a:"Botany", o:["Botany","Zoology"]}, {q:"Powerhouse of cell?", a:"Mitochondria", o:["Mitochondria","Nucleus"]}, {q:"Blood pumper?", a:"Heart", o:["Heart","Brain"]}],
-            'Maths': [{q:"2+2?", a:"4", o:["4","5","6","2"]}, {q:"3*3?", a:"9", o:["9","6","3","12"]}, {q:"Sqrt 16?", a:"4", o:["4","8"]}, {q:"10-5?", a:"5", o:["5","0"]}, {q:"10/2?", a:"5", o:["5","2"]}]
+            'Biology': [{q:"Study of life?", a:"Biology", o:["Biology","Physics","Art","Law"]}, {q:"Unit of life?", a:"Cell", o:["Cell","Tissue","Organ","Atom"]}],
+            'Maths': [{q:"2+2?", a:"4", o:["4","5","6","2"]}]
         },
         'Art': { 'Government': [{q:"Who rules a Kingdom?", a:"King", o:["King","President","Governor"]}] },
         'Commercial': { 'Economics': [{q:"What is Scarcity?", a:"Limited resources", o:["Limited resources","Unlimited money"]}] }
     };
 
-    let triviaBank = [{q:"Who is SOT?", a:"Oluwarotimi Sunday Temitope", o:["Oluwarotimi Sunday Temitope","The President"]},{q:"Capital of Nigeria?", a:"Abuja", o:["Abuja","Lagos"]}];
+    let triviaBank = [{q:"Who is SOT?", a:"Oluwarotimi Sunday Temitope", o:["Oluwarotimi Sunday Temitope","The President"]}];
     
     let currentDept='', currentSub='', currentIdx=0, score=0, tIdx=0, timeLeft=300, timerInterval;
 
     function switchTab(id) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page')); document.getElementById(id).classList.add('active-page'); }
 
     function startPortal() {
-        if(!document.getElementById('std-name').value || !document.getElementById('std-phone').value) return alert("Credentials Required!");
+        if(!document.getElementById('std-name').value) return alert("Fill details!");
         switchTab('page-dept');
     }
 
     function loadSubjects(dept) {
         currentDept = dept;
-        document.getElementById('dept-title').innerText = dept + " DISCIPLINE";
+        document.getElementById('dept-title').innerText = dept + " Subjects";
         let html = '';
         for(let sub in qBank[dept]) html += `<button class="btn btn-blue" onclick="startExam('${sub}')">${sub}</button>`;
         document.getElementById('subject-list').innerHTML = html;
@@ -259,7 +241,7 @@
 
     function showQuestion() {
         let q = qBank[currentDept][currentSub][currentIdx];
-        document.getElementById('exam-info').innerText = `${currentSub} (${currentIdx+1}/5)`;
+        document.getElementById('exam-info').innerText = `${currentSub} (${currentIdx+1}/${qBank[currentDept][currentSub].length})`;
         document.getElementById('q-text').innerText = q.q;
         document.getElementById('options-box').innerHTML = q.o.map(opt => `<button class="option-btn" onclick="checkAns('${opt}')">${opt}</button>`).join('');
     }
@@ -274,25 +256,78 @@
     function finishExam() {
         clearInterval(timerInterval);
         const name = document.getElementById('std-name').value;
-        
         let logs = JSON.parse(localStorage.getItem('sot_final_logs') || "[]");
-        logs.push({name, sub: currentSub, score: score + "/5", time: new Date().toLocaleTimeString()});
+        logs.push({id: Date.now(), name, sub: currentSub, score: score + "/" + qBank[currentDept][currentSub].length});
         localStorage.setItem('sot_final_logs', JSON.stringify(logs));
-
         switchTab('page-result');
-        document.getElementById('res-score').innerText = score + " / 5";
+        document.getElementById('res-score').innerText = score;
+    }
+
+    function saveNewQuestion() {
+        const d = document.getElementById('adm-dept').value;
+        const s = document.getElementById('adm-sub').value;
+        const q = document.getElementById('adm-q').value;
+        const a = document.getElementById('adm-a').value;
+        const o = document.getElementById('adm-o').value.split(',');
+
+        if(!s || !q || !a || !o) return alert("Fill all question fields!");
+
+        if(!qBank[d][s]) qBank[d][s] = [];
+        qBank[d][s].push({q, a, o});
+        localStorage.setItem('sot_qbank', JSON.stringify(qBank));
+        alert("Question Added Successfully!");
+    }
+
+    function renderAdminLogs() {
+        let logs = JSON.parse(localStorage.getItem('sot_final_logs') || "[]");
+        document.getElementById('admin-table-body').innerHTML = logs.map((l, index) => `
+            <tr>
+                <td>${l.name}</td>
+                <td>${l.sub}</td>
+                <td>${l.score}</td>
+                <td>
+                    <button class="action-btn btn-edit" onclick="editStudent(${index})">EDIT</button>
+                    <button class="action-btn btn-del" onclick="deleteLog(${index})">CLEAR</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function editStudent(index) {
+        let logs = JSON.parse(localStorage.getItem('sot_final_logs'));
+        let newName = prompt("Edit Student Name:", logs[index].name);
+        if(newName) {
+            logs[index].name = newName;
+            localStorage.setItem('sot_final_logs', JSON.stringify(logs));
+            renderAdminLogs();
+        }
+    }
+
+    function deleteLog(index) {
+        let logs = JSON.parse(localStorage.getItem('sot_final_logs'));
+        logs.splice(index, 1);
+        localStorage.setItem('sot_final_logs', JSON.stringify(logs));
+        renderAdminLogs();
     }
 
     function generatePDF() {
         document.getElementById('slip-name').innerText = "Student: " + document.getElementById('std-name').value;
         document.getElementById('slip-sub').innerText = "Subject: " + currentSub;
-        document.getElementById('slip-score').innerText = score + " / 5";
+        document.getElementById('slip-score').innerText = score;
         document.getElementById('slip-date').innerText = new Date().toDateString();
         const el = document.getElementById('sot-slip');
         el.style.display = 'block';
         html2pdf().from(el).save().then(()=>el.style.display='none');
     }
 
+    function checkAdmin() {
+        if(prompt("PIN:") === "2026") {
+            switchTab('page-admin');
+            renderAdminLogs();
+        }
+    }
+
+    function goHome() { clearInterval(timerInterval); switchTab('page-home'); }
     function openTrivia() { tIdx=0; switchTab('page-games'); renderTrivia(); }
     function renderTrivia() {
         document.getElementById('t-text').innerText = triviaBank[tIdx].q;
@@ -300,34 +335,6 @@
     }
     function nextTrivia() { if(tIdx < triviaBank.length-1){ tIdx++; renderTrivia(); } }
     function prevTrivia() { if(tIdx > 0){ tIdx--; renderTrivia(); } }
-
-    function checkAdmin() {
-        if(prompt("SECURE ADMIN PIN:") === "2026") {
-            switchTab('page-admin');
-            let logs = JSON.parse(localStorage.getItem('sot_final_logs') || "[]");
-            document.getElementById('total-exams-count').innerText = logs.length;
-            document.getElementById('admin-table-body').innerHTML = logs.reverse().map(l => `<tr><td><b>${l.name}</b></td><td>${l.sub}</td><td>${l.score}</td><td>${l.time}</td></tr>`).join('');
-        }
-    }
-
-    function clearSystem() { if(confirm("Wipe all student records?")) { localStorage.clear(); location.reload(); } }
-    
-    function exportLogs() {
-        let logs = JSON.parse(localStorage.getItem('sot_final_logs') || "[]");
-        if(logs.length === 0) return alert("No data to export");
-        let csv = "Name,Subject,Score,Time\n" + logs.map(l => `${l.name},${l.sub},${l.score},${l.time}`).join("\n");
-        let blob = new Blob([csv], { type: 'text/csv' });
-        let url = window.URL.createObjectURL(blob);
-        let a = document.createElement('a');
-        a.setAttribute('hidden', '');
-        a.setAttribute('href', url);
-        a.setAttribute('download', 'ELITE_MASTER_RECORDS.csv');
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    }
-
-    function goHome() { clearInterval(timerInterval); switchTab('page-home'); }
 </script>
 </body>
-                </html>
+</html>
