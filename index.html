@@ -43,49 +43,18 @@
         .admin-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
         .admin-table th, .admin-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
-        /* Centered Logo on Landing */
-.landing-logo {
-    display: block;
-    margin: 20px auto;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 4px solid var(--sot-gold);
-    box-shadow: 0 0 20px rgba(0,212,255,0.3);
-}
 
-/* Learning Section Grid */
-.course-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-top: 20px;
-}
-.course-card {
-    background: #f4f4f4;
-    padding: 15px;
-    border-radius: 12px;
-    border-left: 5px solid var(--sot-blue);
-    font-size: 0.85rem;
-    font-weight: bold;
-    text-align: left;
-}
-
-/* Terms Modal */
-#terms-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.9);
-    z-index: 12000;
-    display: none;
-    justify-content: center;
-    align-items: center;   }
+        /* NEW CUSTOM STYLES */
+        .landing-logo { display: block; margin: 10px auto; width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--sot-gold); }
+        .course-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 15px 0; }
+        .course-card { background: #f0f0f0; padding: 8px; border-radius: 8px; border-left: 4px solid var(--sot-blue); font-size: 0.7rem; font-weight: bold; text-align: left; }
+        #terms-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 12000; display: none; justify-content: center; align-items: center; }
     </style>
 </head>
 <body onload="showInstallNow()">
 
 <div id="install-bar">
-    <span>📲 Install ELITE CBT master app?</span>
+    <span>📲 Install ELITE CBT Master?</span>
     <button onclick="installApp()">INSTALL</button>
 </div>
 
@@ -113,6 +82,18 @@
     </div>
 </div>
 
+<div id="terms-overlay">
+    <div class="card" style="width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto;">
+        <h2 style="color: red; text-align:center;">TERMS & CONDITIONS</h2>
+        <div style="text-align: left; font-size: 0.85rem; line-height: 1.6; margin: 15px 0;">
+            <p>1. <strong>Integrity:</strong> Cheating is strictly forbidden.</p>
+            <p>2. <strong>Suspension:</strong> Rule violations result in a <strong>24-hour suspension</strong>.</p>
+            <p>3. <strong>Access:</strong> Account sharing is prohibited.</p>
+        </div>
+        <button class="btn btn-blue" onclick="confirmSignup()">I AGREE & CREATE ACCOUNT</button>
+    </div>
+</div>
+
 <div class="overlay">
     <header class="app-header">
         <h2 style="color: white;">ELITE CBT MASTER</h2>
@@ -122,8 +103,19 @@
     <div class="container">
         <div id="page-home" class="page active-page">
             <div class="card" style="text-align:center;">
-                <h2>EXAM PORTAL</h2>
-                <button class="btn btn-blue" onclick="startPortal()">ENTER PORTAL</button>
+                <img src="https://cdn-icons-png.flaticon.com/512/3426/3426653.png" class="landing-logo">
+                <h2 style="color: var(--sot-blue);">OUR VISION</h2>
+                <p style="font-style: italic; color: #666; font-size: 0.8rem;">"Empowering students through technology-driven excellence."</p>
+                
+                <h3 style="margin-top:15px;">TECH ACADEMY COURSES</h3>
+                <div class="course-grid">
+                    <div class="course-card">1. Web Design</div><div class="course-card">2. App Dev</div>
+                    <div class="course-card">3. UI/UX Design</div><div class="course-card">4. Python</div>
+                    <div class="course-card">5. Data Science</div><div class="course-card">6. Cyber Security</div>
+                    <div class="course-card">7. Cloud Computing</div><div class="course-card">8. Graphics</div>
+                    <div class="course-card">9. Digital Marketing</div><div class="course-card">10. Backend</div>
+                </div>
+                <button class="btn btn-blue" onclick="startPortal()">ENTER CBT PORTAL</button>
                 <button class="btn btn-gold" onclick="openQUIZ()">PRACTICE QUIZ</button>
             </div>
         </div>
@@ -166,7 +158,7 @@
         <div id="page-result" class="page">
             <div class="card" style="text-align:center;">
                 <h2>RESULT</h2>
-                <h1 id="score-raw" style="font-size:3rem; color:var(--sot-blue);"></h1>
+                <h1 id="score-raw" style="font-size:3rem; color:var(--sot-blue);">0/0</h1>
                 <button class="btn btn-blue" onclick="generatePDF()">DOWNLOAD RESULT</button>
                 <button class="btn btn-gold" onclick="goHome()">HOME</button>
             </div>
@@ -176,7 +168,7 @@
             <div class="card">
                 <h2>ADMIN CENTER</h2>
                 <table class="admin-table">
-                    <thead><tr><th>User</th><th>Pass</th><th>Phone</th><th>Action</th></tr></thead>
+                    <thead><tr><th>User</th><th>Pass</th><th>Action</th></tr></thead>
                     <tbody id="user-list-body"></tbody>
                 </table>
                 <hr style="margin:20px 0;">
@@ -221,46 +213,48 @@
     </nav>
 </div>
 
-<div id="sot-slip" style="display:none; padding:40px; text-align:center; background:white;">
-    <h1>SOT ELITE TUTORIALS</h1>
-    <h2 id="slip-name"></h2>
-    <h3 id="slip-sub"></h3>
-    <h1 id="slip-score" style="font-size:3rem; color:blue;"></h1>
+<div id="sot-slip" style="display:none; width: 800px; padding: 50px; background: #fff; border: 15px solid #000b18;">
+    <div style="text-align: center; border-bottom: 3px double #000b18; padding-bottom: 20px;">
+        <h1 style="margin:0;">SOT ELITE TUTORIALS</h1>
+        <p>Performance Statement</p>
+    </div>
+    <div style="margin: 30px 0;">
+        <p><strong>STUDENT:</strong> <span id="slip-name"></span></p>
+        <p><strong>SUBJECT:</strong> <span id="slip-sub"></span></p>
+    </div>
+    <div style="text-align: center; padding: 40px; background: #f9f9f9; border: 2px dashed #000;">
+        <p>SCORE ATTAINED</p>
+        <h1 id="slip-score" style="font-size: 4rem; color: #0072ff;"></h1>
+    </div>
+    <div style="margin-top: 60px; display: flex; justify-content: flex-end;">
+        <div style="text-align: center; border-top: 2px solid #000; width: 220px;">
+            <p style="font-family: 'Brush Script MT', cursive; font-size: 1.5rem; margin:0;">Oluwarotimi Sunday</p>
+            <p style="font-size: 0.8rem;"><b>COORDINATOR SIGNATURE</b></p>
+        </div>
+    </div>
 </div>
 
 <script>
-    let currentUser = null;
+    let currentUser = null, pendingUser = null;
     let currentDept='', currentSub='', currentIdx=0, score=0, tIdx=0, timeLeft=300, timerInterval;
 
     let qBank = {
-        'Science': {
-            'Physics': [
-                {q:"Unit of Force?", a:"Newton", o:["Newton","Joule","Watt","Volt"]},
-                {q:"Range of projectile is max at?", a:"45°", o:["30°","45°","60°","90°"]},
-                {q:"Device converting AC to DC?", a:"Rectifier", o:["Motor","Inverter","Rectifier","Fuse"]}
-            ],
-            'Biology': [
-                {q:"Powerhouse of cell?", a:"Mitochondria", o:["Nucleus","Mitochondria","Ribosome","Cortex"]}
-            ]
+        'Science': { 
+            'Physics': [{q:"Unit of Force?", a:"Newton", o:["Newton","Joule","Watt","Volt"]}],
+            'Biology': [{q:"Powerhouse of cell?", a:"Mitochondria", o:["Nucleus","Mitochondria","Ribosome","Cortex"]}] 
         },
         'Art': { 'Government': [{q:"Rule of law means?", a:"Supremacy of law", o:["Police power","Supremacy of law","Military rule","Anarchy"]}] },
         'Commercial': { 'Economics': [{q:"Reward for Labor?", a:"Wages", o:["Profit","Rent","Wages","Interest"]}] }
     };
-
     let QUIZBank = [{q:"Who is the developer?", a:"SOT", o:["SOT","Bot","AI","User"]}];
 
     function showInstallNow() { document.getElementById('install-bar').style.top = '0'; }
-    function installApp() { alert("Install feature requires HTTPS/PWA setup."); }
-
-    function switchTab(id) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-        document.getElementById(id).classList.add('active-page');
-    }
-
+    function installApp() { alert("Install feature active for Chrome/Android."); }
+    function switchTab(id) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page')); document.getElementById(id).classList.add('active-page'); }
+    
     function toggleAuth(mode) {
         document.getElementById('login-form').style.display = (mode === 'login') ? 'block' : 'none';
         document.getElementById('signup-form').style.display = (mode === 'signup') ? 'block' : 'none';
-        document.getElementById('auth-title').innerText = (mode === 'signup') ? 'STUDENT SIGNUP' : 'STUDENT LOGIN';
     }
 
     function handleAuth(type) {
@@ -269,123 +263,82 @@
             let u = document.getElementById('reg-user').value;
             let p = document.getElementById('reg-pass').value;
             let ph = document.getElementById('reg-phone').value;
-            if(u && p) {
-                users[u] = {pass: p, phone: ph, date: new Date().toLocaleDateString()};
-                localStorage.setItem('sot_users', JSON.stringify(users));
-                alert("Success! Login now."); toggleAuth('login');
-            }
+            if(u && p) { pendingUser = {u, p, ph}; document.getElementById('terms-overlay').style.display = 'flex'; }
         } else {
             let u = document.getElementById('user-id').value;
             let p = document.getElementById('user-pass').value;
-            if(users[u] && users[u].pass === p) {
-                currentUser = u;
-                document.getElementById('welcome-text').innerText = "Logged in: " + u;
-                document.getElementById('auth-overlay').style.display = 'none';
-                document.getElementById('splash').style.display = 'flex';
-                setTimeout(() => { document.getElementById('splash').style.display = 'none'; switchTab('page-home'); }, 2000);
-            } else { alert("Invalid login!"); }
+            if(users[u]) {
+                if (users[u].suspendedUntil && users[u].suspendedUntil > Date.now()) {
+                    alert("ACCOUNT SUSPENDED: Try again later."); return;
+                }
+                if(users[u].pass === p) {
+                    currentUser = u;
+                    document.getElementById('auth-overlay').style.display = 'none';
+                    document.getElementById('splash').style.display = 'flex';
+                    setTimeout(() => { document.getElementById('splash').style.display = 'none'; switchTab('page-home'); }, 2000);
+                } else { alert("Wrong password!"); }
+            } else { alert("User not found!"); }
         }
+    }
+
+    function confirmSignup() {
+        let users = JSON.parse(localStorage.getItem('sot_users') || "{}");
+        users[pendingUser.u] = {pass: pendingUser.p, phone: pendingUser.ph, date: new Date().toLocaleDateString()};
+        localStorage.setItem('sot_users', JSON.stringify(users));
+        document.getElementById('terms-overlay').style.display = 'none';
+        alert("ACCOUNT CREATED!"); toggleAuth('login');
     }
 
     function goHome() { clearInterval(timerInterval); switchTab('page-home'); }
     function startPortal() { switchTab('page-dept'); }
-    
     function loadSubjects(dept) {
         currentDept = dept; document.getElementById('dept-title').innerText = dept + " SUBJECTS";
-        let html = '';
-        for(let sub in qBank[dept]) {
-            html += `<button class="btn btn-blue" onclick="startExam('${sub}')">${sub}</button>`;
-        }
-        document.getElementById('sub-list').innerHTML = html;
-        switchTab('page-subs');
+        let html = ''; for(let sub in qBank[dept]) { html += `<button class="btn btn-blue" onclick="startExam('${sub}')">${sub}</button>`; }
+        document.getElementById('sub-list').innerHTML = html; switchTab('page-subs');
     }
-
-    function startExam(sub) {
-        currentSub = sub; currentIdx = 0; score = 0; timeLeft = 300;
-        document.getElementById('label-sub').innerText = sub;
-        switchTab('page-exam'); startTimer(); showQuestion();
-    }
-
-    function startTimer() {
-        clearInterval(timerInterval);
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            let m = Math.floor(timeLeft/60), s = timeLeft%60;
-            document.getElementById('timer').innerText = `${m}:${s<10?'0':''}${s}`;
-            if(timeLeft <= 0) finishExam();
-        }, 1000);
-    }
-
-    function showQuestion() {
-        let q = qBank[currentDept][currentSub][currentIdx];
-        document.getElementById('q-text').innerText = (currentIdx+1) + ". " + q.q;
-        document.getElementById('opt-container').innerHTML = q.o.map(opt => `<button class="option-btn" onclick="checkAns('${opt}', this)">${opt}</button>`).join('');
-    }
-
-    function checkAns(ans, btn) {
-        document.querySelectorAll('.option-btn').forEach(b => b.style.border = '2px solid #ddd');
-        btn.style.border = '3px solid var(--sot-gold)';
-        btn.dataset.selected = ans;
-    }
-
-    function nextQ() {
+    function startExam(sub) { currentSub = sub; currentIdx = 0; score = 0; timeLeft = 300; document.getElementById('label-sub').innerText = sub; switchTab('page-exam'); startTimer(); showQuestion(); }
+    function startTimer() { clearInterval(timerInterval); timerInterval = setInterval(() => { timeLeft--; let m = Math.floor(timeLeft/60), s = timeLeft%60; document.getElementById('timer').innerText = `${m}:${s<10?'0':''}${s}`; if(timeLeft <= 0) finishExam(); }, 1000); }
+    function showQuestion() { let q = qBank[currentDept][currentSub][currentIdx]; document.getElementById('q-text').innerText = (currentIdx+1) + ". " + q.q; document.getElementById('opt-container').innerHTML = q.o.map(opt => `<button class="option-btn" onclick="checkAns('${opt}', this)">${opt}</button>`).join(''); }
+    function checkAns(ans, btn) { document.querySelectorAll('.option-btn').forEach(b => b.style.border = '2px solid #ddd'); btn.style.border = '3px solid var(--sot-gold)'; btn.dataset.selected = ans; }
+    function nextQ() { 
         let sel = document.querySelector('.option-btn[style*="gold"]');
         if(sel && sel.innerText === qBank[currentDept][currentSub][currentIdx].a) score++;
         if(currentIdx < qBank[currentDept][currentSub].length - 1) { currentIdx++; showQuestion(); } else { finishExam(); }
     }
-    
     function prevQ() { if(currentIdx > 0) { currentIdx--; showQuestion(); } }
-
-    function finishExam() {
-        clearInterval(timerInterval);
-        document.getElementById('score-raw').innerText = score + "/" + qBank[currentDept][currentSub].length;
-        switchTab('page-result');
-    }
-
+    function finishExam() { clearInterval(timerInterval); document.getElementById('score-raw').innerText = score + "/" + qBank[currentDept][currentSub].length; switchTab('page-result'); }
     function checkAdmin() { if(prompt("ADMIN PIN:") === "2026") { switchTab('page-admin'); refreshUserTable(); } }
-
     function refreshUserTable() {
         let users = JSON.parse(localStorage.getItem('sot_users') || "{}");
-        let html = '';
-        for(let u in users) { html += `<tr><td>${u}</td><td>${users[u].pass}</td><td>${users[u].phone}</td><td><button onclick="deleteUser('${u}')">Del</button></td></tr>`; }
+        let html = ''; for(let u in users) { html += `<tr><td>${u}</td><td>${users[u].pass}</td><td><button onclick="suspendUser('${u}')">Suspend</button> <button onclick="deleteUser('${u}')">Del</button></td></tr>`; }
         document.getElementById('user-list-body').innerHTML = html;
     }
-
-    function deleteUser(u) {
+    function suspendUser(u) {
         let users = JSON.parse(localStorage.getItem('sot_users') || "{}");
-        delete users[u]; localStorage.setItem('sot_users', JSON.stringify(users)); refreshUserTable();
+        users[u].suspendedUntil = Date.now() + (24 * 60 * 60 * 1000);
+        localStorage.setItem('sot_users', JSON.stringify(users)); alert(u + " suspended for 24hrs");
     }
-
+    function deleteUser(u) { let users = JSON.parse(localStorage.getItem('sot_users') || "{}"); delete users[u]; localStorage.setItem('sot_users', JSON.stringify(users)); refreshUserTable(); }
     function saveNewQuestion() {
-        const d = document.getElementById('adm-dept').value, s = document.getElementById('adm-sub').value;
-        const q = document.getElementById('adm-q').value, a = document.getElementById('adm-o1').value;
+        const d = document.getElementById('adm-dept').value, s = document.getElementById('adm-sub').value, q = document.getElementById('adm-q').value, a = document.getElementById('adm-o1').value;
         const opts = [a, document.getElementById('adm-o2').value, document.getElementById('adm-o3').value, document.getElementById('adm-o4').value];
-        if(!qBank[d][s]) qBank[d][s] = [];
-        qBank[d][s].push({q, a, o: opts});
-        alert("Saved!");
+        if(!qBank[d][s]) qBank[d][s] = []; qBank[d][s].push({q, a, o: opts}); alert("Saved!");
     }
-
     function openQUIZ() { tIdx=0; switchTab('page-games'); renderQUIZ(); }
-    function renderQUIZ() { 
-        document.getElementById('t-text').innerText = QUIZBank[tIdx].q;
-        document.getElementById('t-box').innerHTML = QUIZBank[tIdx].o.map(o => `<button class="option-btn" onclick="this.style.background='gold'">${o}</button>`).join('');
-    }
+    function renderQUIZ() { document.getElementById('t-text').innerText = QUIZBank[tIdx].q; document.getElementById('t-box').innerHTML = QUIZBank[tIdx].o.map(o => `<button class="option-btn" onclick="this.style.background='gold'">${o}</button>`).join(''); }
     function nextQUIZ() { if(tIdx < QUIZBank.length-1) { tIdx++; renderQUIZ(); } else { alert("Quiz Finished!"); goHome(); } }
-
     function toggleCalc() { let c = document.getElementById('calc-box'); c.style.display = (c.style.display==='block')?'none':'block'; }
     function calcIn(v) { document.getElementById('calc-display').value += v; }
     function calcClear() { document.getElementById('calc-display').value = ''; }
     function calcSolve() { try { let d = document.getElementById('calc-display'); d.value = eval(d.value); } catch(e) { alert("Error"); } }
-
+    
     function generatePDF() {
-        document.getElementById('slip-name').innerText = "Student: " + currentUser;
-        document.getElementById('slip-sub').innerText = "Subject: " + currentSub;
-        document.getElementById('slip-score').innerText = score;
-        const el = document.getElementById('sot-slip');
-        el.style.display = 'block';
+        document.getElementById('slip-name').innerText = currentUser;
+        document.getElementById('slip-sub').innerText = currentSub.toUpperCase();
+        document.getElementById('slip-score').innerText = score + "/" + qBank[currentDept][currentSub].length;
+        const el = document.getElementById('sot-slip'); el.style.display = 'block';
         html2pdf().from(el).save().then(()=>el.style.display='none');
     }
 </script>
 </body>
 </html>
-
