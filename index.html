@@ -8,25 +8,32 @@
 </head>
 <body onload="initApp()">
 
+<!-- AUTH PAGE -->
 <div id="page-auth" class="page active-page">
     <div class="splash-container">
         <div class="sot-logo-wrapper">
-            <img src="https://cdn-icons-png.flaticon.com/512/3426/3426653.png" class="sot-icon-anim" alt="SOT Logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/3426/3426653.png" 
+                 class="sot-icon-anim" 
+                 alt="SOT Logo">
         </div>
-        
+
         <h1 class="sot-name-anim">SUNDAY OLUWAROTIMI</h1>
         <p class="sot-tagline">Excellence Driven • ELITE CBT PRACTICE</p>
 
-        <button class="btn btn-gold" onclick="startApp()">ACCESS ACADEMY</button>
-            <input type="text" id="user-id" placeholder="Enter Your Name to Start">
-            <button class="btn btn-gold" onclick="startApp()">ENTER ACADEMY</button>
-        </div>
+        <input type="text" id="user-id" placeholder="Enter Your Name to Start">
+
+        <button class="btn btn-gold" onclick="startApp()">ENTER ACADEMY</button>
     </div>
 </div>
 
+<!-- HOME PAGE -->
 <div id="page-home" class="page">
     <header class="main-header glass">
-        <div id="quote-ticker"><marquee id="quote-text">🔥 Excellence Driven - ELITE CBT PRACTICE 2026</marquee></div>
+        <div id="quote-ticker">
+            <marquee id="quote-text">
+                🔥 Excellence Driven - ELITE CBT PRACTICE 2026
+            </marquee>
+        </div>
         <h2 id="welcome-user">Welcome, Student</h2>
     </header>
     
@@ -37,7 +44,9 @@
         <div class="menu-item glass" onclick="switchPage('page-forum')">💬<br>FORUM</div>
     </div>
 
-    <button class="btn-live pulse" onclick="switchPage('page-live')">🔴 JOIN LIVE CLASS</button>
+    <button class="btn-live pulse" onclick="switchPage('page-live')">
+        🔴 JOIN LIVE CLASS
+    </button>
 
     <div class="vision-card glass">
         <h3>SOT VISION</h3>
@@ -46,6 +55,7 @@
     </div>
 </div>
 
+<!-- AI PAGE -->
 <div id="page-ai" class="page">
     <div class="chat-header glass">🤖 SOT GIANT AI</div>
     <div id="ai-chat-box" class="chat-window"></div>
@@ -53,9 +63,12 @@
         <input type="text" id="ai-input" placeholder="Ask a question...">
         <button onclick="askGiantAI()">ASK</button>
     </div>
-    <button class="btn btn-gold" onclick="switchPage('page-home')">BACK HOME</button>
+    <button class="btn btn-gold" onclick="switchPage('page-home')">
+        BACK HOME
+    </button>
 </div>
 
+<!-- FORUM PAGE -->
 <div id="page-forum" class="page">
     <div class="chat-header glass">💬 STUDENT FORUM</div>
     <div id="forum-box" class="chat-window"></div>
@@ -63,11 +76,11 @@
         <input type="text" id="forum-input" placeholder="Message group...">
         <button onclick="sendForumMsg()">SEND</button>
     </div>
-    <button class="btn btn-gold" onclick="switchPage('page-home')">BACK HOME</button>
+    <button class="btn btn-gold" onclick="switchPage('page-home')">
+        BACK HOME
+    </button>
 </div>
 
 <script src="script.js"></script>
 </body>
 </html>
-
-
