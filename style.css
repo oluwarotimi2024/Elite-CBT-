@@ -1,0 +1,20 @@
+:root { --sot-blue: #000b18; --sot-gold: #FFD700; --sot-accent: #00d4ff; }
+* { box-sizing: border-box; font-family: sans-serif; margin: 0; padding: 0; }
+body { background: #f4f7f9; }
+.card { background: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.btn { width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+.btn-blue { background: var(--sot-blue); color: white; }
+.btn-gold { background: var(--sot-gold); }
+.btn-danger { background: #ff4757; color: white; }
+.pulse { animation: pulse 2s infinite; }
+@keyframes pulse { 0% {box-shadow: 0 0 0 0 rgba(255,71,87,0.7);} 70% {box-shadow: 0 0 0 10px rgba(255,71,87,0);} 100% {box-shadow: 0 0 0 0 rgba(255,71,87,0);} }
+.chat-display { height: 300px; overflow-y: auto; background: #f0f0f0; padding: 10px; display: flex; flex-direction: column; gap: 8px; border-radius: 10px; }
+.msg { padding: 10px; border-radius: 10px; max-width: 80%; font-size: 0.85rem; }
+.msg-ai { background: #ddd; align-self: flex-start; }
+.msg-user { background: var(--sot-blue); color: white; align-self: flex-end; }
+.msg-student { background: #fff; border: 1px solid #ddd; align-self: flex-start; }
+.ai-input-area { display: flex; margin-top: 10px; }
+.ai-input-area input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px 0 0 5px; }
+.send-btn { background: var(--sot-blue); color: white; padding: 10px; border: none; border-radius: 0 5px 5px 0; }
+.bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px; border-top: 1px solid #ddd; font-weight: bold; font-size: 0.8rem; }
+.subject-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
