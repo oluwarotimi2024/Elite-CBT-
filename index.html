@@ -233,23 +233,12 @@
         </div>
     </div>
 </div>
-<!-- Subject files first -->
-<script src="physics.js"></script>
-<script src="biology.js"></script>
-<script src="government.js"></script>
-<script src="economics.js"></script>
-
-<!-- Then your main app file -->
-<script src="main.js"></script>
 
 <script>
     let currentUser = null, pendingUser = null;
     let currentDept='', currentSub='', currentIdx=0, score=0, tIdx=0, timeLeft=300, timerInterval;
 
-    let qBank = {
-    'Science': { 'Physics': physicsQ, 'Biology': biologyQ },
-    'Art': { 'Government': governmentQ },
-    'Commercial': { 'Economics': economicsQ }
+    
 };
     let QUIZBank = [{q:"Who is the developer?", a:"SOT", o:["SOT","Bot","AI","User"]}];
 
@@ -347,4 +336,5 @@
 </script>
 </body>
 </html>
+
 
