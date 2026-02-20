@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ELITE CBT MASTER | SOT ACADEMY</title>
+    <title>SOT ACADEMY | ELITE CBT</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body onload="initApp()">
 
-<div id="quote-ticker"><marquee id="quote-text">Loading Excellence...</marquee></div>
+<div id="quote-ticker"><marquee id="quote-text">Welcome to SOT Academy 2026...</marquee></div>
 
 <div id="auth-overlay">
     <div class="card auth-card">
-        <h2 style="text-align:center;">SOT ACADEMY LOGIN</h2>
+        <h2 class="text-center">SOT ACADEMY</h2>
         <div id="login-form">
             <input type="text" id="user-id" placeholder="Username">
             <input type="password" id="user-pass" placeholder="Password">
             <button class="btn btn-blue" onclick="handleAuth('login')">LOGIN</button>
-            <p class="toggle-text" onclick="toggleAuth('signup')">New here? Sign Up</p>
+            <p class="toggle-text" onclick="toggleAuth('signup')">Create an Account</p>
         </div>
         <div id="signup-form" style="display:none;">
             <input type="text" id="reg-user" placeholder="Choose Username">
             <input type="password" id="reg-pass" placeholder="Password (Min 8)">
-            <button class="btn btn-gold" onclick="handleAuth('signup')">CREATE ACCOUNT</button>
+            <button class="btn btn-gold" onclick="handleAuth('signup')">SIGN UP</button>
             <p class="toggle-text" onclick="toggleAuth('login')">Back to Login</p>
         </div>
     </div>
@@ -31,88 +31,97 @@
 
 <div class="overlay">
     <header class="app-header">
-        <h2>ELITE CBT MASTER</h2>
-        <small id="welcome-text"></small>
+        <h1>SOT ACADEMY</h1>
+        <p id="welcome-text">Student Portal</p>
     </header>
 
     <div class="container">
         <div id="page-home" class="page active-page">
-            <div class="card text-center">
-                <img src="https://cdn-icons-png.flaticon.com/512/3426/3426653.png" class="hero-icon">
-                <button class="btn btn-blue" onclick="switchTab('page-dept')">START CBT EXAM</button>
-                <button class="btn btn-blue" onclick="switchTab('page-ai')">GIANT AI HUB</button>
-                <button class="btn btn-danger pulse" onclick="switchTab('page-live')">🔴 JOIN LIVE CLASS</button>
-                <button class="btn btn-gold" onclick="openLibrary()">PREMIUM LIBRARY</button>
-                <button class="btn btn-blue" style="background:#00a8ff;" onclick="switchTab('page-forum')">STUDENT CHAT BOARD</button>
+            <div class="menu-grid">
+                <div class="menu-card" onclick="switchTab('page-dept')">📖<br>CBT Exam</div>
+                <div class="menu-card" onclick="switchTab('page-ai')">🤖<br>Giant AI</div>
+                <div class="menu-card" onclick="openLibrary()">📚<br>Library</div>
+                <div class="menu-card" onclick="switchTab('page-forum')">💬<br>Forum</div>
             </div>
             
-            <div class="card vision-card">
-                <h3>SOT VISION</h3>
-                <p>"To empower every student with digital tools and academic excellence."</p>
-                <hr><p><b>Inquiries:</b> 09024301199</p>
+            <button class="btn btn-danger pulse" onclick="switchTab('page-live')">🔴 JOIN LIVE CLASS</button>
+
+            <div class="vision-box">
+                <h4>OUR VISION</h4>
+                <p>"Empowering students with digital excellence."</p>
+                <div class="contact-line">Admin: 09024301199</div>
             </div>
         </div>
 
         <div id="page-forum" class="page">
-            <div class="card forum-container">
+            <div class="card full-page-card">
                 <h3 class="text-center">STUDENT FORUM</h3>
                 <div id="forum-box" class="chat-display"></div>
-                <div class="ai-input-area">
-                    <input type="text" id="forum-input" placeholder="Say something to other students...">
+                <div class="chat-input-row">
+                    <input type="text" id="forum-input" placeholder="Type message...">
                     <button onclick="sendForumMsg()" class="send-btn">SEND</button>
                 </div>
                 <button class="btn btn-gold" onclick="goHome()">BACK</button>
             </div>
         </div>
 
-        <div id="page-live" class="page">
-            <div class="card text-center">
-                <h2 style="color:#ff4757;">LIVE TUTORIAL</h2>
-                <div class="invoice-card" style="border-color:#ff4757;">
-                    <h4 id="live-topic">TOPIC: JAMB Secrets</h4>
-                    <p id="live-time">TIME: 7:00 PM (Saturdays)</p>
-                </div>
-                <button class="btn btn-blue" onclick="joinMeeting()">ENTER CLASSROOM</button>
-                <button class="btn btn-gold" onclick="goHome()">BACK</button>
-            </div>
-        </div>
-
         <div id="page-ai" class="page">
-            <div class="card ai-container">
-                <div class="ai-header"><h3>SOT GIANT AI</h3></div>
+            <div class="card full-page-card">
+                <div class="ai-header-gold">SOT GIANT AI</div>
                 <div id="ai-chat-box" class="chat-display"></div>
-                <div class="ai-input-area">
-                    <input type="text" id="ai-input" placeholder="Ask any question...">
-                    <button onclick="askGiantAI()" class="send-btn">➤</button>
+                <div class="chat-input-row">
+                    <input type="text" id="ai-input" placeholder="Ask anything...">
+                    <button onclick="askGiantAI()" class="send-btn">ASK</button>
                 </div>
                 <button class="btn btn-gold" onclick="goHome()">BACK</button>
             </div>
         </div>
 
         <div id="page-library" class="page">
-            <div id="lib-lock" class="card">
-                <h3>🔓 UNLOCK LIBRARY</h3>
-                <p>Pay ₦700 to Opay: <b>09024301199</b> (Sunday Oluwarotimi)</p>
-                <input type="file" id="pay-file" accept="image/*">
-                <button class="btn btn-blue" onclick="submitPay()">VERIFY RECEIPT</button>
+            <div id="lib-lock" class="card text-center">
+                <h3>PREMIUM ACCESS</h3>
+                <div class="payment-box">
+                    <p>Pay <b>₦700</b> to:</p>
+                    <h2 style="color:var(--sot-blue);">09024301199</h2>
+                    <p>Opay | Sunday Oluwarotimi</p>
+                </div>
+                <input type="file" id="pay-file" class="file-input">
+                <button class="btn btn-blue" onclick="submitPay()">VERIFY & UNLOCK</button>
             </div>
             <div id="lib-content" class="card" style="display:none;">
-                <input type="text" id="lib-search" onkeyup="globalSearch()" placeholder="Search books...">
+                <input type="text" id="lib-search" onkeyup="globalSearch()" placeholder="Search Books...">
                 <div id="lib-results"></div>
             </div>
         </div>
 
-        <div id="page-dept" class="page"><div class="card text-center" id="dept-list"></div></div>
-        <div id="page-subs" class="page"><div class="card text-center"><div id="sub-list" class="subject-grid"></div></div></div>
-    </div>
+        <div id="page-live" class="page">
+            <div class="card text-center">
+                <h2 style="color:#ff4757;">LIVE CLASSROOM</h2>
+                <div class="info-tag">Saturday | 7:00 PM</div>
+                <p>Topic: JAMB Secrets</p>
+                <button class="btn btn-blue" onclick="joinMeeting()">ENTER NOW</button>
+                <button class="btn btn-gold" onclick="goHome()">BACK</button>
+            </div>
+        </div>
 
-    <nav class="bottom-nav">
-        <div onclick="goHome()">HOME</div>
-        <div onclick="switchTab('page-forum')">CHAT</div>
-        <div onclick="openLibrary()">BOOKS</div>
-        <div onclick="switchTab('page-ai')">AI</div>
-    </nav>
+        <div id="page-dept" class="page">
+            <div class="card text-center">
+                <h3>DEPARTMENTS</h3>
+                <button class="btn btn-blue" onclick="loadSubjects('Science')">SCIENCE</button>
+                <button class="btn btn-blue" onclick="loadSubjects('Art')">ART</button>
+                <button class="btn btn-blue" onclick="loadSubjects('Commercial')">COMMERCIAL</button>
+                <button class="btn btn-gold" onclick="goHome()">BACK</button>
+            </div>
+        </div>
+        <div id="page-subs" class="page">
+            <div class="card text-center">
+                <h3 id="dept-title"></h3>
+                <div id="sub-list" class="subject-grid"></div>
+                <button class="btn btn-gold" onclick="switchTab('page-dept')">BACK</button>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="script.js"></script>
 </body>
-</html>
+    </html>
