@@ -1,3 +1,7 @@
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+
+<script src="script.js"></script>
 let currentUser = null;
 
 function switchPage(pageId) {
