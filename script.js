@@ -10,17 +10,60 @@ function switchPage(pageId) {
     if(pageId === 'page-forum') renderForum();
 }
 
-// --- FORUM LOGIC (Fixed) ---
+// --- FIREBASE CONFIG (Paste your keys here) ---
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "sot-academy.firebaseapp.com",
+  databaseURL: "https://sot-academy-default-rtdb.firebaseio.com",
+  projectId: "sot-academy",
+  storageBucket: "sot-academy.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abcdef"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+// --- GLOBAL STUDENT FORUM ---
 function sendForumMsg() {
     let input = document.getElementById('forum-input');
     if(!input.value || !currentUser) return;
 
-    let chats = JSON.parse(localStorage.getItem('sot_forum') || "[]");
-    chats.push({ user: currentUser, text: input.value, time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) });
-    localStorage.setItem('sot_forum', JSON.stringify(chats));
+    // This sends the message to the Cloud
+    database.ref('forum_messages').push({
+        user: currentUser,
+        text: input.value,
+        timestamp: Date.now(),
+        timeStr: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+    });
+
     input.value = "";
-    renderForum();
 }
+
+// --- REAL-TIME LISTENER ---
+// This "listens" for messages globally. When Student A types, 
+// Google pushes the message to Student B automatically.
+database.ref('forum_messages').on('value', (snapshot) => {
+    let box = document.getElementById('forum-box');
+    if(!box) return;
+    
+    let data = snapshot.val();
+    let html = "";
+    
+    for(let id in data) {
+        let msg = data[id];
+        let isMe = msg.user === currentUser;
+        html += `<div class="${isMe ? 'msg-mine' : 'msg-other'}">
+            <small style="font-size:0.6rem; font-weight:bold; display:block;">${isMe ? 'Me' : msg.user}</small>
+            ${msg.text}
+            <small style="display:block; font-size:0.5rem; opacity:0.5; text-align:right;">${msg.timeStr}</small>
+        </div>`;
+    }
+    
+    box.innerHTML = html;
+    box.scrollTop = box.scrollHeight;
+});
 
 function renderForum() {
     let box = document.getElementById('forum-box');
