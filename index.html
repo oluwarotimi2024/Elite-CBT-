@@ -3,416 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ELITE CBT MASTER | SOT</title>
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3426/3426653.png">
+    <title>ELITE CBT MASTER | SOT ACADEMY</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <style>
-        :root { --sot-blue: #000b18; --sot-accent: #00d4ff; --sot-gold: #FFD700; --glass: rgba(255, 255, 255, 0.98); --sot-green: #2ecc71; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=2070') no-repeat center center fixed; background-size: cover; overflow-x: hidden; }
-        
-        #install-bar { position: fixed; top: -100px; left: 0; width: 100%; height: 70px; background: var(--sot-gold); color: #000; z-index: 11000; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; font-weight: bold; transition: top 0.4s; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        #auth-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--sot-blue); z-index: 10000; display: flex; justify-content: center; align-items: center; color: white; }
-        .overlay { background: rgba(0, 11, 24, 0.8); min-height: 100vh; width: 100%; display: flex; flex-direction: column; }
-        .app-header { background: rgba(0, 11, 24, 0.95); padding: 20px; text-align: center; border-bottom: 3px solid var(--sot-accent); }
-        .container { padding: 20px; max-width: 800px; margin: auto; width: 100%; flex: 1; padding-bottom: 120px; }
-        .page { display: none; animation: fadeIn 0.5s; }
-        .active-page { display: block; }
-        .card { background: var(--glass); padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #333; margin-bottom: 20px; }
-        .btn { width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; font-weight: 900; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
-        .btn-blue { background: linear-gradient(90deg, #001f3f, #0072ff); color: white; }
-        .btn-gold { background: var(--sot-gold); color: #000; }
-        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; }
-        .option-btn { width: 100%; padding: 12px; margin: 5px 0; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; text-align: left; background: white; font-weight: bold; }
-        #calc-box { position: fixed; bottom: 100px; right: 20px; width: 220px; background: #222; padding: 15px; border-radius: 15px; display: none; z-index: 2000; border: 2px solid var(--sot-accent); }
-        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
-        .cbtn { padding: 10px; background: #444; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; border-top: 3px solid var(--sot-accent); z-index: 1000; }
-        .nav-item { font-weight: bold; color: #333; cursor: pointer; font-size: 0.75rem; text-align: center; }
-        .admin-table { width: 100%; border-collapse: collapse; font-size: 0.7rem; margin-top: 10px; }
-        .admin-table th, .admin-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        .invoice-card { background: #fff; border: 2px dashed var(--sot-blue); padding: 15px; border-radius: 10px; margin: 15px 0; border-top: 8px solid var(--sot-gold); }
-        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body onload="showInstallNow()">
+<body onload="initApp()">
 
-<div id="install-bar">
-    <span>📲 Install ELITE CBT Master?</span>
-    <button onclick="this.parentElement.style.top='-100px'" style="background:#000; color:#fff; border:none; padding:8px 15px; border-radius:5px;">LATER</button>
-</div>
+<div id="quote-ticker"><marquee id="quote-text">Loading Excellence...</marquee></div>
 
 <div id="auth-overlay">
-    <div class="card" style="width: 90%; max-width: 400px;">
-        <h2 id="auth-title" style="text-align:center;">STUDENT LOGIN</h2>
+    <div class="card auth-card">
+        <h2 style="text-align:center;">SOT ACADEMY LOGIN</h2>
         <div id="login-form">
             <input type="text" id="user-id" placeholder="Username">
             <input type="password" id="user-pass" placeholder="Password">
             <button class="btn btn-blue" onclick="handleAuth('login')">LOGIN</button>
-            <p style="text-align:center; cursor:pointer; color: blue; font-size: 0.8rem;" onclick="toggleAuth('signup')">New here? Sign Up</p>
+            <p class="toggle-text" onclick="toggleAuth('signup')">New here? Sign Up</p>
         </div>
         <div id="signup-form" style="display:none;">
-            <input type="text" id="reg-user" placeholder="Username">
-            <input type="number" id="reg-phone" placeholder="Phone Number">
+            <input type="text" id="reg-user" placeholder="Choose Username">
             <input type="password" id="reg-pass" placeholder="Password (Min 8)">
             <button class="btn btn-gold" onclick="handleAuth('signup')">CREATE ACCOUNT</button>
-            <p style="text-align:center; cursor:pointer; color: blue; font-size: 0.8rem;" onclick="toggleAuth('login')">Back to Login</p>
+            <p class="toggle-text" onclick="toggleAuth('login')">Back to Login</p>
         </div>
-    </div>
-</div>
-
-<div id="terms-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:12000; display:none; justify-content:center; align-items:center;">
-    <div class="card" style="width:90%; max-width:400px;">
-        <h3 style="color:red;">REGISTRATION TERMS</h3>
-        <p style="font-size:0.8rem; margin:15px 0;">By joining ELITE CBT, you agree to uphold academic integrity. Account sharing is prohibited.</p>
-        <button class="btn btn-blue" onclick="confirmSignup()">I AGREE</button>
     </div>
 </div>
 
 <div class="overlay">
     <header class="app-header">
-        <h2 style="color: white;">ELITE CBT MASTER</h2>
-        <small style="color: var(--sot-gold);" id="welcome-text"></small>
+        <h2>ELITE CBT MASTER</h2>
+        <small id="welcome-text"></small>
     </header>
 
     <div class="container">
         <div id="page-home" class="page active-page">
-            <div class="card" style="text-align:center;">
-                <img src="https://cdn-icons-png.flaticon.com/512/3426/3426653.png" style="width:80px; margin-bottom:10px;">
-                <h2 style="color:var(--sot-blue);">EXCELLENCE DRIVEN</h2>
+            <div class="card text-center">
+                <img src="https://cdn-icons-png.flaticon.com/512/3426/3426653.png" class="hero-icon">
                 <button class="btn btn-blue" onclick="switchTab('page-dept')">START CBT EXAM</button>
+                <button class="btn btn-blue" onclick="switchTab('page-ai')">GIANT AI HUB</button>
+                <button class="btn btn-danger pulse" onclick="switchTab('page-live')">🔴 JOIN LIVE CLASS</button>
                 <button class="btn btn-gold" onclick="openLibrary()">PREMIUM LIBRARY</button>
+                <button class="btn btn-blue" style="background:#00a8ff;" onclick="switchTab('page-forum')">STUDENT CHAT BOARD</button>
+            </div>
+            
+            <div class="card vision-card">
+                <h3>SOT VISION</h3>
+                <p>"To empower every student with digital tools and academic excellence."</p>
+                <hr><p><b>Inquiries:</b> 09024301199</p>
             </div>
         </div>
 
-        <div id="page-dept" class="page">
-            <div class="card">
-                <h2 style="text-align:center;">DEPARTMENTS</h2>
-                <button class="btn btn-blue" onclick="loadSubjects('Science')">SCIENCE</button>
-                <button class="btn btn-blue" onclick="loadSubjects('Art')">ART</button>
-                <button class="btn btn-blue" onclick="loadSubjects('Commercial')">COMMERCIAL</button>
-            </div>
-        </div>
-
-        <div id="page-subs" class="page">
-            <div class="card" style="text-align:center;">
-                <h2 id="dept-title"></h2>
-                <div id="sub-list"></div>
-                <button class="btn btn-gold" onclick="switchTab('page-dept')">BACK</button>
-            </div>
-        </div>
-
-        <div id="page-exam" class="page">
-            <div class="card" style="padding:0; overflow:hidden;">
-                <div style="background:var(--sot-blue); color:white; padding:15px; display:flex; justify-content:space-between;">
-                    <span id="label-sub"></span>
-                    <span id="timer" style="color:var(--sot-gold); font-weight:bold;">05:00</span>
+        <div id="page-forum" class="page">
+            <div class="card forum-container">
+                <h3 class="text-center">STUDENT FORUM</h3>
+                <div id="forum-box" class="chat-display"></div>
+                <div class="ai-input-area">
+                    <input type="text" id="forum-input" placeholder="Say something to other students...">
+                    <button onclick="sendForumMsg()" class="send-btn">SEND</button>
                 </div>
-                <div style="padding:20px;">
-                    <h3 id="q-text" style="margin-bottom:15px;"></h3>
-                    <div id="opt-container"></div>
-                    <div style="display:flex; gap:10px;">
-                        <button class="btn btn-blue" style="width:50%;" onclick="prevQ()">PREV</button>
-                        <button class="btn btn-blue" style="width:50%;" onclick="nextQ()">NEXT</button>
-                    </div>
-                    <button class="btn" style="background:red; color:white;" onclick="finishExam()">SUBMIT</button>
+                <button class="btn btn-gold" onclick="goHome()">BACK</button>
+            </div>
+        </div>
+
+        <div id="page-live" class="page">
+            <div class="card text-center">
+                <h2 style="color:#ff4757;">LIVE TUTORIAL</h2>
+                <div class="invoice-card" style="border-color:#ff4757;">
+                    <h4 id="live-topic">TOPIC: JAMB Secrets</h4>
+                    <p id="live-time">TIME: 7:00 PM (Saturdays)</p>
                 </div>
+                <button class="btn btn-blue" onclick="joinMeeting()">ENTER CLASSROOM</button>
+                <button class="btn btn-gold" onclick="goHome()">BACK</button>
+            </div>
+        </div>
+
+        <div id="page-ai" class="page">
+            <div class="card ai-container">
+                <div class="ai-header"><h3>SOT GIANT AI</h3></div>
+                <div id="ai-chat-box" class="chat-display"></div>
+                <div class="ai-input-area">
+                    <input type="text" id="ai-input" placeholder="Ask any question...">
+                    <button onclick="askGiantAI()" class="send-btn">➤</button>
+                </div>
+                <button class="btn btn-gold" onclick="goHome()">BACK</button>
             </div>
         </div>
 
         <div id="page-library" class="page">
             <div id="lib-lock" class="card">
-                <h2 style="text-align:center;">📚 PREMIUM E-LIBRARY</h2>
-                <p style="text-align:center; font-size:0.85rem; margin:10px 0;">Pay <b>₦700</b> for lifetime access to millions of free PDF books and summaries.</p>
-                <div class="invoice-card">
-                    <p><b>Bank:</b> OPAY</p>
-                    <p><b>Acct Name:</b> Sunday Oluwarotimi</p>
-                    <p><b>Acct No:</b> <span style="font-size:1.2rem; color:blue;">0123456789</span></p>
-                    <p><b>Amount:</b> ₦700</p>
-                    <p><b>Invoice Ref:</b> <span id="pay-ref" style="font-weight:bold; color:red;"></span></p>
-                </div>
-                <p style="font-size:0.75rem;">Step 2: Upload Screenshot of Proof</p>
+                <h3>🔓 UNLOCK LIBRARY</h3>
+                <p>Pay ₦700 to Opay: <b>09024301199</b> (Sunday Oluwarotimi)</p>
                 <input type="file" id="pay-file" accept="image/*">
-                <button class="btn btn-blue" onclick="submitPay()">I HAVE MADE PAYMENT</button>
+                <button class="btn btn-blue" onclick="submitPay()">VERIFY RECEIPT</button>
             </div>
-            
             <div id="lib-content" class="card" style="display:none;">
-                <h2 style="text-align:center;">GLOBAL BOOK SEARCH</h2>
-                <input type="text" id="lib-search" onkeyup="globalSearch()" placeholder="Type book name (e.g. Physics)...">
+                <input type="text" id="lib-search" onkeyup="globalSearch()" placeholder="Search books...">
                 <div id="lib-results"></div>
-                <button class="btn btn-blue" onclick="externalSearch()">SEARCH GLOBALLY</button>
             </div>
         </div>
 
-        <div id="page-admin" class="page">
-            <div class="card">
-                <h2>ADMIN PANEL</h2>
-                <p>Pending Library Approvals:</p>
-                <div id="admin-pay-list"></div>
-                <hr style="margin:20px 0;">
-                <p>Registered Students:</p>
-                <div id="admin-user-list"></div>
-            </div>
-        </div>
-
-        <div id="page-result" class="page">
-            <div class="card" style="text-align:center;">
-                <h2>YOUR SCORE</h2>
-                <h1 id="score-raw" style="font-size:4rem; color:var(--sot-blue);">0/0</h1>
-                <p id="remark" style="font-weight:bold; margin-bottom:20px;"></p>
-                <button class="btn btn-blue" onclick="generatePDF()">DOWNLOAD RESULT</button>
-                <button class="btn btn-gold" onclick="goHome()">HOME</button>
-            </div>
-        </div>
-    </div>
-
-    <button onclick="toggleCalc()" style="position:fixed; bottom:90px; left:20px; border-radius:50%; width:50px; height:50px; background:var(--sot-gold); z-index:2001; border:none; font-weight:bold; cursor:pointer;">CALC</button>
-    <div id="calc-box">
-        <input type="text" id="calc-display" style="color:lime; background:black; text-align:right;" readonly>
-        <div class="calc-grid">
-            <button class="cbtn" onclick="calcIn('7')">7</button><button class="cbtn" onclick="calcIn('8')">8</button><button class="cbtn" onclick="calcIn('9')">9</button><button class="cbtn" onclick="calcIn('/')">/</button>
-            <button class="cbtn" onclick="calcIn('4')">4</button><button class="cbtn" onclick="calcIn('5')">5</button><button class="cbtn" onclick="calcIn('6')">6</button><button class="cbtn" onclick="calcIn('*')">*</button>
-            <button class="cbtn" onclick="calcIn('1')">1</button><button class="cbtn" onclick="calcIn('2')">2</button><button class="cbtn" onclick="calcIn('3')">3</button><button class="cbtn" onclick="calcIn('-')">-</button>
-            <button class="cbtn" onclick="calcClear()">C</button><button class="cbtn" onclick="calcIn('0')">0</button><button class="cbtn" onclick="calcSolve()">=</button><button class="cbtn" onclick="calcIn('+')">+</button>
-        </div>
+        <div id="page-dept" class="page"><div class="card text-center" id="dept-list"></div></div>
+        <div id="page-subs" class="page"><div class="card text-center"><div id="sub-list" class="subject-grid"></div></div></div>
     </div>
 
     <nav class="bottom-nav">
-        <div class="nav-item" onclick="goHome()">HOME</div>
-        <div class="nav-item" onclick="openLibrary()">LIBRARY</div>
-        <div class="nav-item" onclick="checkAdmin()">ADMIN</div>
-        <div class="nav-item" onclick="location.reload()" style="color:red;">LOGOUT</div>
+        <div onclick="goHome()">HOME</div>
+        <div onclick="switchTab('page-forum')">CHAT</div>
+        <div onclick="openLibrary()">BOOKS</div>
+        <div onclick="switchTab('page-ai')">AI</div>
     </nav>
 </div>
-
-<div id="sot-slip" style="display:none; width: 600px; padding: 40px; background: #fff; border: 15px solid #000b18; font-family: serif;">
-    <div style="text-align: center; border-bottom: 3px double #000b18; padding-bottom: 10px;">
-        <h1 style="margin:0;">SOT ELITE TUTORIALS</h1>
-        <p>Official Performance Statement</p>
-    </div>
-    <div style="margin: 20px 0;">
-        <p><b>STUDENT:</b> <span id="slip-name"></span></p>
-        <p><b>SUBJECT:</b> <span id="slip-sub"></span></p>
-        <p><b>DATE:</b> <span id="slip-date"></span></p>
-    </div>
-    <div style="text-align: center; padding: 30px; background: #f4f4f4; border: 2px dashed #000;">
-        <p>TOTAL SCORE</p>
-        <h1 id="slip-score" style="font-size: 5rem; color: #0072ff; margin:0;"></h1>
-    </div>
-    <div style="margin-top: 40px; text-align: right;">
-        <p style="font-family: cursive; font-size: 1.2rem;">Oluwarotimi Sunday</p>
-        <p><b>COORDINATOR SIGNATURE</b></p>
-    </div>
-</div>
-
-<script>
-    let currentUser = null, pendingUser = null;
-    let currentDept='', currentSub='', currentIdx=0, score=0, timeLeft=300, timerInterval;
-
-    const qBank = {
-        'Science': { 
-            'Physics': [{q:"Unit of Resistance?", a:"Ohm", o:["Volt","Ohm","Watt","Ampere"]}],
-            'Biology': [{q:"Part of cell for energy?", a:"Mitochondria", o:["Nucleus","Mitochondria","Ribosome","Cortex"]}]
-        },
-        'Art': { 
-            'Government': [{q:"Father of Nationalism in Nigeria?", a:"Herbert Macaulay", o:["Nnamdi Azikiwe","Herbert Macaulay","Obafemi Awolowo","Sardauna"]}] 
-        },
-        'Commercial': { 
-            'Economics': [{q:"Reward for Capital?", a:"Interest", o:["Profit","Rent","Interest","Wages"]}] 
-        }
-    };
-
-    function showInstallNow() { document.getElementById('install-bar').style.top = '0'; }
-    function switchTab(id) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page')); document.getElementById(id).classList.add('active-page'); }
-
-    // AUTH
-    function toggleAuth(mode) {
-        document.getElementById('login-form').style.display = (mode === 'login') ? 'block' : 'none';
-        document.getElementById('signup-form').style.display = (mode === 'signup') ? 'block' : 'none';
-    }
-
-    function handleAuth(type) {
-        let users = JSON.parse(localStorage.getItem('sot_users') || "{}");
-        if(type === 'signup') {
-            let u = document.getElementById('reg-user').value.trim();
-            let p = document.getElementById('reg-pass').value.trim();
-            let ph = document.getElementById('reg-phone').value.trim();
-            if(!u || p.length < 8 || !ph) { alert("Please fill correctly (Password min 8)"); return; }
-            pendingUser = {u, p, ph};
-            document.getElementById('terms-overlay').style.display = 'flex';
-        } else {
-            let u = document.getElementById('user-id').value.trim();
-            let p = document.getElementById('user-pass').value.trim();
-            if(users[u] && users[u].pass === p) {
-                currentUser = u;
-                document.getElementById('welcome-text').innerText = "Welcome, " + u;
-                document.getElementById('auth-overlay').style.display = 'none';
-                switchTab('page-home');
-            } else { alert("Wrong Login Details"); }
-        }
-    }
-
-    function confirmSignup() {
-        let users = JSON.parse(localStorage.getItem('sot_users') || "{}");
-        users[pendingUser.u] = { pass: pendingUser.p, phone: pendingUser.ph, library: false };
-        localStorage.setItem('sot_users', JSON.stringify(users));
-        document.getElementById('terms-overlay').style.display = 'none';
-        alert("Account Created!"); toggleAuth('login');
-    }
-
-    // EXAM LOGIC
-    function loadSubjects(dept) {
-        currentDept = dept;
-        document.getElementById('dept-title').innerText = dept + " SUBJECTS";
-        let html = '';
-        for(let sub in qBank[dept]) {
-            html += `<button class="btn btn-blue" onclick="startExam('${sub}')">${sub}</button>`;
-        }
-        document.getElementById('sub-list').innerHTML = html;
-        switchTab('page-subs');
-    }
-
-    function startExam(sub) {
-        currentSub = sub; currentIdx = 0; score = 0; timeLeft = 300;
-        document.getElementById('label-sub').innerText = sub;
-        switchTab('page-exam');
-        startTimer();
-        showQuestion();
-    }
-
-    function startTimer() {
-        clearInterval(timerInterval);
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            let m = Math.floor(timeLeft/60), s = timeLeft%60;
-            document.getElementById('timer').innerText = `${m}:${s<10?'0':''}${s}`;
-            if(timeLeft <= 0) finishExam();
-        }, 1000);
-    }
-
-    function showQuestion() {
-        let q = qBank[currentDept][currentSub][currentIdx];
-        document.getElementById('q-text').innerText = (currentIdx+1) + ". " + q.q;
-        document.getElementById('opt-container').innerHTML = q.o.map(opt => `<button class="option-btn" onclick="selectOpt('${opt}', this)">${opt}</button>`).join('');
-    }
-
-    function selectOpt(ans, btn) {
-        document.querySelectorAll('.option-btn').forEach(b => b.style.border = '2px solid #ddd');
-        btn.style.border = '3px solid var(--sot-gold)';
-        btn.dataset.selected = ans;
-    }
-
-    function nextQ() {
-        let sel = document.querySelector('.option-btn[style*="gold"]');
-        if(sel && sel.innerText === qBank[currentDept][currentSub][currentIdx].a) score++;
-        if(currentIdx < qBank[currentDept][currentSub].length - 1) {
-            currentIdx++; showQuestion();
-        } else { finishExam(); }
-    }
-
-    function prevQ() { if(currentIdx > 0) { currentIdx--; showQuestion(); } }
-
-    function finishExam() {
-        clearInterval(timerInterval);
-        document.getElementById('score-raw').innerText = score + "/" + qBank[currentDept][currentSub].length;
-        let p = (score/qBank[currentDept][currentSub].length)*100;
-        document.getElementById('remark').innerText = p >= 70 ? "EXCELLENT PERFORMANCE!" : "KEEP PRACTICING!";
-        switchTab('page-result');
-    }
-
-    // LIBRARY & PAYMENT
-    function openLibrary() {
-        let users = JSON.parse(localStorage.getItem('sot_users') || "{}");
-        if(users[currentUser].library) {
-            document.getElementById('lib-lock').style.display = 'none';
-            document.getElementById('lib-content').style.display = 'block';
-        } else {
-            document.getElementById('pay-ref').innerText = "SOT-" + Math.floor(Math.random()*9999);
-        }
-        switchTab('page-library');
-    }
-
-    function submitPay() {
-        if(!document.getElementById('pay-file').files[0]) { alert("Upload Proof!"); return; }
-        let payList = JSON.parse(localStorage.getItem('sot_pending_pay') || "[]");
-        payList.push({ user: currentUser, ref: document.getElementById('pay-ref').innerText });
-        localStorage.setItem('sot_pending_pay', JSON.stringify(payList));
-        alert("Payment Submitted! Admin will verify soon.");
-        switchTab('page-home');
-    }
-
-    function globalSearch() {
-        let q = document.getElementById('lib-search').value;
-        document.getElementById('lib-results').innerHTML = `<p style='font-size:0.8rem;'>Searching for: <b>${q}</b></p>`;
-    }
-
-    function externalSearch() {
-    let q = document.getElementById('lib-search').value.trim();
-    if(!q) return alert("Please enter a book title or subject first!");
-
-    // Encode the search term so spaces become '%20' (this prevents 404 errors)
-    let searchUrl = encodeURIComponent(q);
-
-    // 1. PDF Drive - Fixed Search Path
-    window.open(`https://www.pdfdrive.com/search?q=${searchUrl}`, '_blank');
-    
-    // 2. Library Genesis - Fixed Search Path
-    window.open(`http://libgen.is/search.php?req=${searchUrl}&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def`, '_blank');
-    
-    // 3. MySchool.ng - Nigerian Specific Search
-    window.open(`https://myschool.ng/search/contents?q=${searchUrl}`, '_blank');
-
-    alert("Searching Global Databases... Check your new browser tabs!");
-            }
-
-    // ADMIN
-    function checkAdmin() {
-        if(prompt("ADMIN PIN:") === "2026") {
-            switchTab('page-admin');
-            let pList = JSON.parse(localStorage.getItem('sot_pending_pay') || "[]");
-            let uList = JSON.parse(localStorage.getItem('sot_users') || "{}");
-            
-            document.getElementById('admin-pay-list').innerHTML = pList.map((p, i) => `
-                <div class="card" style="font-size:0.8rem;">
-                    User: ${p.user} | Ref: ${p.ref} 
-                    <button onclick="verifyUser('${p.user}', ${i})">Approve</button>
-                </div>
-            `).join('');
-            
-            document.getElementById('admin-user-list').innerHTML = Object.keys(uList).map(u => `<li>${u}</li>`).join('');
-        }
-    }
-
-    function verifyUser(user, index) {
-        let uList = JSON.parse(localStorage.getItem('sot_users') || "{}");
-        uList[user].library = true;
-        localStorage.setItem('sot_users', JSON.stringify(uList));
-        
-        let pList = JSON.parse(localStorage.getItem('sot_pending_pay') || "[]");
-        pList.splice(index, 1);
-        localStorage.setItem('sot_pending_pay', JSON.stringify(pList));
-        alert("Verified!");
-        checkAdmin();
-    }
-
-    // CALCULATOR
-    function toggleCalc() { let b = document.getElementById('calc-box'); b.style.display = b.style.display==='block'?'none':'block'; }
-    function calcIn(v) { document.getElementById('calc-display').value += v; }
-    function calcClear() { document.getElementById('calc-display').value = ''; }
-    function calcSolve() { try { document.getElementById('calc-display').value = eval(document.getElementById('calc-display').value); } catch(e) { alert("Error"); } }
-
-    function goHome() { clearInterval(timerInterval); switchTab('page-home'); }
-
-    function generatePDF() {
-        document.getElementById('slip-name').innerText = currentUser;
-        document.getElementById('slip-sub').innerText = currentSub;
-        document.getElementById('slip-date').innerText = new Date().toLocaleDateString();
-        document.getElementById('slip-score').innerText = score + "/" + qBank[currentDept][currentSub].length;
-        const el = document.getElementById('sot-slip');
-        el.style.display = 'block';
-        html2pdf().from(el).save().then(()=>el.style.display='none');
-    }
-</script>
+<script src="script.js"></script>
 </body>
 </html>
-
