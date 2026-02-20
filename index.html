@@ -347,10 +347,23 @@
     }
 
     function externalSearch() {
-        let q = document.getElementById('lib-search').value;
-        if(!q) return alert("Enter book name");
-        window.open(`https://www.pdfdrive.com/search?q=${q}`, '_blank');
-    }
+    let q = document.getElementById('lib-search').value.trim();
+    if(!q) return alert("Please enter a book title or subject first!");
+
+    // Encode the search term so spaces become '%20' (this prevents 404 errors)
+    let searchUrl = encodeURIComponent(q);
+
+    // 1. PDF Drive - Fixed Search Path
+    window.open(`https://www.pdfdrive.com/search?q=${searchUrl}`, '_blank');
+    
+    // 2. Library Genesis - Fixed Search Path
+    window.open(`http://libgen.is/search.php?req=${searchUrl}&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def`, '_blank');
+    
+    // 3. MySchool.ng - Nigerian Specific Search
+    window.open(`https://myschool.ng/search/contents?q=${searchUrl}`, '_blank');
+
+    alert("Searching Global Databases... Check your new browser tabs!");
+            }
 
     // ADMIN
     function checkAdmin() {
@@ -402,3 +415,4 @@
 </script>
 </body>
 </html>
+
