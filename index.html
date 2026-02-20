@@ -128,11 +128,66 @@ body {
     </div>
 
     <div class="grid-container">
+        <div class="menu-item glass" onclick="switchPage('page-dept')">📋 CBT</div>
+<div class="menu-item glass" onclick="switchPage('page-calculator')">🧮 CALCULATOR</div>
+<div class="menu-item glass" onclick="switchPage('page-library')">📚 LIBRARY</div>
+<div class="menu-item glass" onclick="switchPage('page-tutorial')">🎓 TUTORIAL</div>
         <div class="menu-item glass" onclick="switchPage('page-ai')">🤖 GIANT AI</div>
         <div class="menu-item glass" onclick="switchPage('page-forum')">💬 FORUM</div>
     </div>
 </div>
+<!-- ================= CBT PAGE ================= -->
+<div id="page-dept" class="page">
+    <div class="chat-header glass">📋 SELECT DEPARTMENT</div>
 
+    <div class="grid-container">
+        <div class="menu-item glass" onclick="openDept('Science')">SCIENCE</div>
+        <div class="menu-item glass" onclick="openDept('Art')">ART</div>
+        <div class="menu-item glass" onclick="openDept('Commercial')">COMMERCIAL</div>
+    </div>
+
+    <div id="subject-area" class="grid-container"></div>
+
+    <div id="quiz-area" style="padding:15px;"></div>
+
+    <button class="btn btn-gold" onclick="switchPage('page-home')">BACK</button>
+</div>
+
+<!-- ================= CALCULATOR ================= -->
+<div id="page-calculator" class="page">
+    <div class="chat-header glass">🧮 CALCULATOR</div>
+    <div style="padding:20px;">
+        <input type="text" id="calc-display" style="width:100%;padding:10px;font-size:18px;">
+        <br><br>
+        <button onclick="calculate()">=</button>
+        <button onclick="clearCalc()">CLEAR</button>
+    </div>
+    <button class="btn btn-gold" onclick="switchPage('page-home')">BACK</button>
+</div>
+
+<!-- ================= LIBRARY ================= -->
+<div id="page-library" class="page">
+    <div class="chat-header glass">📚 DIGITAL LIBRARY</div>
+    <div style="padding:20px;">
+        <ul>
+            <li>📘 Physics Textbook</li>
+            <li>📘 Biology Textbook</li>
+            <li>📘 Government Textbook</li>
+            <li>📘 Economics Textbook</li>
+        </ul>
+    </div>
+    <button class="btn btn-gold" onclick="switchPage('page-home')">BACK</button>
+</div>
+
+<!-- ================= TUTORIAL ================= -->
+<div id="page-tutorial" class="page">
+    <div class="chat-header glass">🎓 TUTORIAL CENTER</div>
+    <div style="padding:20px;">
+        <p>Live Coaching Available</p>
+        <p>WhatsApp: 09024301199</p>
+    </div>
+    <button class="btn btn-gold" onclick="switchPage('page-home')">BACK</button>
+</div>
 <!-- AI -->
 <div id="page-ai" class="page">
     <div class="glass">🤖 SOT GIANT AI</div>
@@ -208,7 +263,104 @@ function renderForum() {
 
     box.scrollTop = box.scrollHeight;
 }
+/* ================= QUESTION BANK ================= */
 
+let questionBank = {
+    Science: {
+        Physics: [
+            {q:"Unit of Force?", o:["Newton","Joule","Pascal","Watt"], a:"Newton"},
+            {q:"Speed of light?", o:["3x10^8","300","1500","1000"], a:"3x10^8"}
+        ],
+        Chemistry: [
+            {q:"Atomic number of Oxygen?", o:["6","7","8","9"], a:"8"}
+        ],
+        Biology: [
+            {q:"Powerhouse of cell?", o:["Nucleus","Mitochondria","Ribosome","Chloroplast"], a:"Mitochondria"}
+        ]
+    },
+    Art: {
+        Government: [
+            {q:"Father of Democracy?", o:["Lincoln","Locke","Rousseau","Obama"], a:"Rousseau"}
+        ],
+        Literature: [
+            {q:"Author of Things Fall Apart?", o:["Achebe","Soyinka","Ngugi","Shakespeare"], a:"Achebe"}
+        ]
+    },
+    Commercial: {
+        Economics: [
+            {q:"Law of demand states?", o:["Price up demand down","Both up","Both down","None"], a:"Price up demand down"}
+        ],
+        Accounting: [
+            {q:"Asset minus Liability equals?", o:["Capital","Profit","Loss","Cash"], a:"Capital"}
+        ]
+    }
+};
+
+let currentDept = "";
+let currentSubject = "";
+let currentIndex = 0;
+let score = 0;
+
+/* ================= OPEN DEPARTMENT ================= */
+function openDept(dept) {
+    currentDept = dept;
+    let subjectArea = document.getElementById("subject-area");
+    subjectArea.innerHTML = "";
+
+    for (let sub in questionBank[dept]) {
+        subjectArea.innerHTML += `
+        <div class="menu-item glass" onclick="startQuiz('${sub}')">
+            ${sub}
+        </div>`;
+    }
+}
+
+/* ================= START QUIZ ================= */
+function startQuiz(subject) {
+    currentSubject = subject;
+    currentIndex = 0;
+    score = 0;
+    loadQuestion();
+}
+
+function loadQuestion() {
+    let quizArea = document.getElementById("quiz-area");
+    let qObj = questionBank[currentDept][currentSubject][currentIndex];
+
+    quizArea.innerHTML = `<h3>${qObj.q}</h3>`;
+
+    qObj.o.forEach(opt => {
+        quizArea.innerHTML += `
+        <div class="menu-item glass" onclick="checkAnswer('${opt}')">
+            ${opt}
+        </div>`;
+    });
+}
+
+function checkAnswer(ans) {
+    let correct = questionBank[currentDept][currentSubject][currentIndex].a;
+
+    if (ans === correct) score++;
+
+    currentIndex++;
+
+    if (currentIndex < questionBank[currentDept][currentSubject].length) {
+        loadQuestion();
+    } else {
+        document.getElementById("quiz-area").innerHTML =
+        `<h2>Test Finished</h2><p>Your Score: ${score}</p>`;
+    }
+}
+
+/* ================= CALCULATOR ================= */
+function calculate() {
+    let val = document.getElementById("calc-display").value;
+    document.getElementById("calc-display").value = eval(val);
+}
+
+function clearCalc() {
+    document.getElementById("calc-display").value = "";
+}
 /* AI */
 function askGiantAI() {
     let input = document.getElementById('ai-input');
@@ -229,3 +381,4 @@ function askGiantAI() {
 
 </body>
 </html>
+
