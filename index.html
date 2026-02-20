@@ -3,125 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOT ACADEMY | ELITE CBT</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <title>SOT ACADEMY | ELITE EDITION</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body onload="initApp()">
 
-<div id="quote-ticker"><marquee id="quote-text">Welcome to SOT Academy 2026...</marquee></div>
-
-<div id="auth-overlay">
-    <div class="card auth-card">
-        <h2 class="text-center">SOT ACADEMY</h2>
+<div id="page-auth" class="page active-page">
+    <div class="auth-container glass">
+        <h1 class="logo-text">SOT ACADEMY</h1>
         <div id="login-form">
             <input type="text" id="user-id" placeholder="Username">
             <input type="password" id="user-pass" placeholder="Password">
             <button class="btn btn-blue" onclick="handleAuth('login')">LOGIN</button>
-            <p class="toggle-text" onclick="toggleAuth('signup')">Create an Account</p>
+            <p class="toggle-link" onclick="toggleAuth('signup')">New? Create Account</p>
         </div>
         <div id="signup-form" style="display:none;">
             <input type="text" id="reg-user" placeholder="Choose Username">
             <input type="password" id="reg-pass" placeholder="Password (Min 8)">
             <button class="btn btn-gold" onclick="handleAuth('signup')">SIGN UP</button>
-            <p class="toggle-text" onclick="toggleAuth('login')">Back to Login</p>
+            <p class="toggle-link" onclick="toggleAuth('login')">Back to Login</p>
         </div>
     </div>
 </div>
 
-<div class="overlay">
-    <header class="app-header">
-        <h1>SOT ACADEMY</h1>
-        <p id="welcome-text">Student Portal</p>
+<div id="page-home" class="page">
+    <header class="main-header glass">
+        <div id="quote-ticker"><marquee id="quote-text">🔥 Excellence Driven - SOT Academy 2026</marquee></div>
+        <h2 id="welcome-user">Welcome, Student</h2>
     </header>
+    
+    <div class="grid-container">
+        <div class="menu-item glass" onclick="switchPage('page-dept')">📋<br>CBT EXAM</div>
+        <div class="menu-item glass" onclick="switchPage('page-ai')">🤖<br>GIANT AI</div>
+        <div class="menu-item glass" onclick="openLibrary()">📚<br>LIBRARY</div>
+        <div class="menu-item glass" onclick="switchPage('page-forum')">💬<br>FORUM</div>
+    </div>
 
-    <div class="container">
-        <div id="page-home" class="page active-page">
-            <div class="menu-grid">
-                <div class="menu-card" onclick="switchTab('page-dept')">📖<br>CBT Exam</div>
-                <div class="menu-card" onclick="switchTab('page-ai')">🤖<br>Giant AI</div>
-                <div class="menu-card" onclick="openLibrary()">📚<br>Library</div>
-                <div class="menu-card" onclick="switchTab('page-forum')">💬<br>Forum</div>
-            </div>
-            
-            <button class="btn btn-danger pulse" onclick="switchTab('page-live')">🔴 JOIN LIVE CLASS</button>
+    <button class="btn-live pulse" onclick="switchPage('page-live')">🔴 JOIN LIVE CLASS</button>
 
-            <div class="vision-box">
-                <h4>OUR VISION</h4>
-                <p>"Empowering students with digital excellence."</p>
-                <div class="contact-line">Admin: 09024301199</div>
-            </div>
-        </div>
-
-        <div id="page-forum" class="page">
-            <div class="card full-page-card">
-                <h3 class="text-center">STUDENT FORUM</h3>
-                <div id="forum-box" class="chat-display"></div>
-                <div class="chat-input-row">
-                    <input type="text" id="forum-input" placeholder="Type message...">
-                    <button onclick="sendForumMsg()" class="send-btn">SEND</button>
-                </div>
-                <button class="btn btn-gold" onclick="goHome()">BACK</button>
-            </div>
-        </div>
-
-        <div id="page-ai" class="page">
-            <div class="card full-page-card">
-                <div class="ai-header-gold">SOT GIANT AI</div>
-                <div id="ai-chat-box" class="chat-display"></div>
-                <div class="chat-input-row">
-                    <input type="text" id="ai-input" placeholder="Ask anything...">
-                    <button onclick="askGiantAI()" class="send-btn">ASK</button>
-                </div>
-                <button class="btn btn-gold" onclick="goHome()">BACK</button>
-            </div>
-        </div>
-
-        <div id="page-library" class="page">
-            <div id="lib-lock" class="card text-center">
-                <h3>PREMIUM ACCESS</h3>
-                <div class="payment-box">
-                    <p>Pay <b>₦700</b> to:</p>
-                    <h2 style="color:var(--sot-blue);">09024301199</h2>
-                    <p>Opay | Sunday Oluwarotimi</p>
-                </div>
-                <input type="file" id="pay-file" class="file-input">
-                <button class="btn btn-blue" onclick="submitPay()">VERIFY & UNLOCK</button>
-            </div>
-            <div id="lib-content" class="card" style="display:none;">
-                <input type="text" id="lib-search" onkeyup="globalSearch()" placeholder="Search Books...">
-                <div id="lib-results"></div>
-            </div>
-        </div>
-
-        <div id="page-live" class="page">
-            <div class="card text-center">
-                <h2 style="color:#ff4757;">LIVE CLASSROOM</h2>
-                <div class="info-tag">Saturday | 7:00 PM</div>
-                <p>Topic: JAMB Secrets</p>
-                <button class="btn btn-blue" onclick="joinMeeting()">ENTER NOW</button>
-                <button class="btn btn-gold" onclick="goHome()">BACK</button>
-            </div>
-        </div>
-
-        <div id="page-dept" class="page">
-            <div class="card text-center">
-                <h3>DEPARTMENTS</h3>
-                <button class="btn btn-blue" onclick="loadSubjects('Science')">SCIENCE</button>
-                <button class="btn btn-blue" onclick="loadSubjects('Art')">ART</button>
-                <button class="btn btn-blue" onclick="loadSubjects('Commercial')">COMMERCIAL</button>
-                <button class="btn btn-gold" onclick="goHome()">BACK</button>
-            </div>
-        </div>
-        <div id="page-subs" class="page">
-            <div class="card text-center">
-                <h3 id="dept-title"></h3>
-                <div id="sub-list" class="subject-grid"></div>
-                <button class="btn btn-gold" onclick="switchTab('page-dept')">BACK</button>
-            </div>
-        </div>
+    <div class="vision-card glass">
+        <h3>SOT VISION</h3>
+        <p>"Empowering every student with digital excellence."</p>
+        <small>WhatsApp Admin: 09024301199</small>
     </div>
 </div>
+
+<div id="page-ai" class="page">
+    <div class="chat-header glass">🤖 SOT GIANT AI</div>
+    <div id="ai-chat-box" class="chat-window"></div>
+    <div class="chat-bar glass">
+        <input type="text" id="ai-input" placeholder="Ask a question...">
+        <button onclick="askGiantAI()">ASK</button>
+    </div>
+    <button class="btn btn-gold" onclick="switchPage('page-home')">BACK HOME</button>
+</div>
+
+<div id="page-forum" class="page">
+    <div class="chat-header glass">💬 STUDENT FORUM</div>
+    <div id="forum-box" class="chat-window"></div>
+    <div class="chat-bar glass">
+        <input type="text" id="forum-input" placeholder="Message group...">
+        <button onclick="sendForumMsg()">SEND</button>
+    </div>
+    <button class="btn btn-gold" onclick="switchPage('page-home')">BACK HOME</button>
+</div>
+
 <script src="script.js"></script>
 </body>
-    </html>
+</html>
