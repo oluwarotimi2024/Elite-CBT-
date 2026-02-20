@@ -49,10 +49,22 @@ function startApp() {
     switchPage('page-home');
 }
 
-/* ------------------ INIT ------------------ */
 function initApp() {
-    console.log("App Initialized");
+
+    // Create automatic guest user
+    currentUser = "Guest_" + Math.floor(Math.random() * 1000);
+
+    // Set welcome name
+    setTimeout(() => {
+
+        document.getElementById('welcome-user').innerText =
+            "Hello, " + currentUser;
+
+        switchPage('page-home');
+
+    }, 5000); // 5 seconds splash
 }
+
 
 /* ------------------ FORUM SEND ------------------ */
 function sendForumMsg() {
