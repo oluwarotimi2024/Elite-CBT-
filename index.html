@@ -334,9 +334,9 @@ function confirmSignup() {
     document.getElementById('terms-overlay').style.display = 'none';
     alert("Account Created Successfully!");
     toggleAuth('login');
-        }
-    
-    function recoverPassword() {
+}  // ✅ only this closing brace
+
+function recoverPassword() {
     let users = JSON.parse(localStorage.getItem('sot_users') || "{}");
 
     let u = document.getElementById('fp-user').value.trim();
@@ -363,8 +363,7 @@ function confirmSignup() {
 
     alert("Password Reset Successful!");
     toggleAuth('login');
-    }
-
+}  // ✅ only this closing brace
 
     function goHome() { clearInterval(timerInterval); switchTab('page-home'); }
     function startPortal() { switchTab('page-dept'); }
@@ -419,6 +418,7 @@ function confirmSignup() {
 </script>
 </body>
 </html>
+
 
 
 
