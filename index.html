@@ -336,88 +336,59 @@ function confirmSignup() {
     toggleAuth('login');
 }  // ✅ only this closing brace
 
-function recoverPassword() {
+function handleAuth(type) {
     let users = JSON.parse(localStorage.getItem('sot_users') || "{}");
 
-    let u = document.getElementById('fp-user').value.trim();
-    let ph = document.getElementById('fp-phone').value.trim();
-    let newPass = document.getElementById('fp-newpass').value.trim();
+    if(type === 'signup') {
+        let u = document.getElementById('reg-user').value.trim();
+        let p = document.getElementById('reg-pass').value.trim();
+        let ph = document.getElementById('reg-phone').value.trim();
 
-    if(!users[u]) {
-        alert("User not found!");
-        return;
-    }
+        if(!u || !p || !ph) {
+            alert("All fields required!");
+            return;
+        }
 
-    if(users[u].phone !== ph) {
-        alert("Phone number does not match!");
-        return;
-    }
+        if(p.length < 8) {
+            alert("Password must be at least 8 characters!");
+            return;
+        }
 
-    if(newPass.length < 8) {
-        alert("Password must be at least 8 characters!");
-        return;
-    }
+        if(users[u]) {
+            alert("Username already exists!");
+            return;
+        }
 
-    users[u].pass = newPass;
-    localStorage.setItem('sot_users', JSON.stringify(users));
+        pendingUser = {u, p, ph};
+        document.getElementById('terms-overlay').style.display = 'flex';
 
-    alert("Password Reset Successful!");
-    toggleAuth('login');
-}  // ✅ only this closing brace
+    } else {
+        let u = document.getElementById('user-id').value.trim();
+        let p = document.getElementById('user-pass').value.trim();
 
-    function goHome() { clearInterval(timerInterval); switchTab('page-home'); }
-    function startPortal() { switchTab('page-dept'); }
-    function loadSubjects(dept) {
-        currentDept = dept; document.getElementById('dept-title').innerText = dept + " SUBJECTS";
-        let html = ''; for(let sub in qBank[dept]) { html += `<button class="btn btn-blue" onclick="startExam('${sub}')">${sub}</button>`; }
-        document.getElementById('sub-list').innerHTML = html; switchTab('page-subs');
+        if(!users[u]) {
+            alert("User not found!");
+            return;
+        }
+
+        if(users[u].pass !== p) {
+            alert("Wrong password!");
+            return;
+        }
+
+        currentUser = u;
+
+        document.getElementById('welcome-text').innerHTML =
+            `<img src="https://cdn-icons-png.flaticon.com/512/3426/3426653.png" style="width:30px; vertical-align:middle;"> 
+             Welcome, <b>${u}</b>`; // Changed hardcoded name to the actual user name
+
+        document.getElementById('auth-overlay').style.display = 'none';
+        switchTab('page-home');
     }
-    function startExam(sub) { currentSub = sub; currentIdx = 0; score = 0; timeLeft = 300; document.getElementById('label-sub').innerText = sub; switchTab('page-exam'); startTimer(); showQuestion(); }
-    function startTimer() { clearInterval(timerInterval); timerInterval = setInterval(() => { timeLeft--; let m = Math.floor(timeLeft/60), s = timeLeft%60; document.getElementById('timer').innerText = `${m}:${s<10?'0':''}${s}`; if(timeLeft <= 0) finishExam(); }, 1000); }
-    function showQuestion() { let q = qBank[currentDept][currentSub][currentIdx]; document.getElementById('q-text').innerText = (currentIdx+1) + ". " + q.q; document.getElementById('opt-container').innerHTML = q.o.map(opt => `<button class="option-btn" onclick="checkAns('${opt}', this)">${opt}</button>`).join(''); }
-    function checkAns(ans, btn) { document.querySelectorAll('.option-btn').forEach(b => b.style.border = '2px solid #ddd'); btn.style.border = '3px solid var(--sot-gold)'; btn.dataset.selected = ans; }
-    function nextQ() { 
-        let sel = document.querySelector('.option-btn[style*="gold"]');
-        if(sel && sel.innerText === qBank[currentDept][currentSub][currentIdx].a) score++;
-        if(currentIdx < qBank[currentDept][currentSub].length - 1) { currentIdx++; showQuestion(); } else { finishExam(); }
-    }
-    function prevQ() { if(currentIdx > 0) { currentIdx--; showQuestion(); } }
-    function finishExam() { clearInterval(timerInterval); document.getElementById('score-raw').innerText = score + "/" + qBank[currentDept][currentSub].length; switchTab('page-result'); }
-    function checkAdmin() { if(prompt("ADMIN PIN:") === "2026") { switchTab('page-admin'); refreshUserTable(); } }
-    function refreshUserTable() {
-        let users = JSON.parse(localStorage.getItem('sot_users') || "{}");
-        let html = ''; for(let u in users) { html += `<tr><td>${u}</td><td>${users[u].pass}</td><td><button onclick="suspendUser('${u}')">Suspend</button> <button onclick="deleteUser('${u}')">Del</button></td></tr>`; }
-        document.getElementById('user-list-body').innerHTML = html;
-    }
-    function suspendUser(u) {
-        let users = JSON.parse(localStorage.getItem('sot_users') || "{}");
-        users[u].suspendedUntil = Date.now() + (24 * 60 * 60 * 1000);
-        localStorage.setItem('sot_users', JSON.stringify(users)); alert(u + " suspended for 24hrs");
-    }
-    function deleteUser(u) { let users = JSON.parse(localStorage.getItem('sot_users') || "{}"); delete users[u]; localStorage.setItem('sot_users', JSON.stringify(users)); refreshUserTable(); }
-    function saveNewQuestion() {
-        const d = document.getElementById('adm-dept').value, s = document.getElementById('adm-sub').value, q = document.getElementById('adm-q').value, a = document.getElementById('adm-o1').value;
-        const opts = [a, document.getElementById('adm-o2').value, document.getElementById('adm-o3').value, document.getElementById('adm-o4').value];
-        if(!qBank[d][s]) qBank[d][s] = []; qBank[d][s].push({q, a, o: opts}); alert("Saved!");
-    }
-    function openQUIZ() { tIdx=0; switchTab('page-games'); renderQUIZ(); }
-    function renderQUIZ() { document.getElementById('t-text').innerText = QUIZBank[tIdx].q; document.getElementById('t-box').innerHTML = QUIZBank[tIdx].o.map(o => `<button class="option-btn" onclick="this.style.background='gold'">${o}</button>`).join(''); }
-    function nextQUIZ() { if(tIdx < QUIZBank.length-1) { tIdx++; renderQUIZ(); } else { alert("Quiz Finished!"); goHome(); } }
-    function toggleCalc() { let c = document.getElementById('calc-box'); c.style.display = (c.style.display==='block')?'none':'block'; }
-    function calcIn(v) { document.getElementById('calc-display').value += v; }
-    function calcClear() { document.getElementById('calc-display').value = ''; }
-    function calcSolve() { try { let d = document.getElementById('calc-display'); d.value = eval(d.value); } catch(e) { alert("Error"); } }
-    
-    function generatePDF() {
-        document.getElementById('slip-name').innerText = currentUser;
-        document.getElementById('slip-sub').innerText = currentSub.toUpperCase();
-        document.getElementById('slip-score').innerText = score + "/" + qBank[currentDept][currentSub].length;
-        const el = document.getElementById('sot-slip'); el.style.display = 'block';
-        html2pdf().from(el).save().then(()=>el.style.display='none');
-    }
-</script>
+} // <--- THIS BRACE WAS MISSING
 </body>
 </html>
+
 
 
 
